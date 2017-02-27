@@ -1,0 +1,15 @@
+*.[oa]
+*.zip
+*.csv
+*.pdb
+*.exe
+*.log
+logs
+obj
+bin
+.vs
+Arch
+*.msi
+
+/NRM311/NRM311/zh-CN/NRM311.resources.dll
+/Tuning/Tuning
