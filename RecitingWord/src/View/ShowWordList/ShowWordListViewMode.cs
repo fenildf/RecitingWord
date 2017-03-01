@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecitingWord
 {
-    class ShowWordListViewMode: Microsoft.Practices.Prism.ViewModel.NotificationObject
+    class ShowWordListViewMode:MVVM.ViewModeBase
     {
         static ShowWordListViewMode _Instance = new ShowWordListViewMode();
         public static ShowWordListViewMode Instance
@@ -30,7 +30,7 @@ namespace RecitingWord
             set
             {
                 _Words = value;
-                RaisePropertyChanged(nameof(Words));
+                ProperChange(nameof(Words));
             }
         }
 

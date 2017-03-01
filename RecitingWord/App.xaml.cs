@@ -23,8 +23,16 @@ namespace RecitingWord
             catch (Exception)
             {
             }
+
+            WordMode wm = new WordMode("Asynchronous");
+
+            wm.AsynTrans();
+
             MainWindow mw = new MainWindow();
             mw.Show();
+
+            WordPlayViewMode.Instance.Word = wm;
+            //wm
             base.OnStartup(e);
         }
     }

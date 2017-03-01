@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecitingWord
 {
-    class WordPlayViewMode : Microsoft.Practices.Prism.ViewModel.NotificationObject
+    class WordPlayViewMode : MVVM.ViewModeBase
     {
         static WordPlayViewMode _Instance = new WordPlayViewMode();
         public static WordPlayViewMode Instance
@@ -21,8 +21,8 @@ namespace RecitingWord
         {
 
         }
-        private string _Word;
-        public string Word
+        private WordMode _Word = new WordMode("");
+        public WordMode Word
         {
             get { return _Word; }
             set
@@ -30,11 +30,11 @@ namespace RecitingWord
                 if (_Word != value)
                 {
                     _Word = value;
-                    RaisePropertyChanged(nameof(Word));
+                    ProperChange(nameof(Word));
                 }
             }
         }
-        private double _WordOpacity;
+        private double _WordOpacity = 1;
         public double WordOpacity
         {
             get { return _WordOpacity; }
@@ -46,26 +46,13 @@ namespace RecitingWord
                     else if (value < 0) _WordOpacity = 0;
                     else _WordOpacity = value;
 
-                    RaisePropertyChanged(nameof(WordOpacity));
+                    ProperChange(nameof(WordOpacity));
                 }
             }
         }
 
-        private string _WordExplaining;
-        public string WordExplaining
-        {
-            get { return _WordExplaining; }
-            set
-            {
-                if (_WordExplaining != value)
-                {
-                    _WordExplaining = value;
-                    RaisePropertyChanged(nameof(WordExplaining));
-                }
-            }
-        }
 
-        private double _WordExplainingOpacity;
+        private double _WordExplainingOpacity = 1;
         public double WordExplainingOpacity
         {
             get { return _WordExplainingOpacity; }
@@ -77,7 +64,7 @@ namespace RecitingWord
                     else if (value < 0) _WordExplainingOpacity = 0;
                     else _WordExplainingOpacity = value;
 
-                    RaisePropertyChanged(nameof(WordExplainingOpacity));
+                    ProperChange(nameof(WordExplainingOpacity));
                 }
             }
         }

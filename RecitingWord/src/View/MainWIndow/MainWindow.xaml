@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RecitingWord" mc:Ignorable="d"
         DataContext="{Binding Source={x:Static local:MainWindowViewMode.Instance}}"
-        Title="MainWindow" Height="427.656" Width="883" FontSize="25">
-		
+        Title="MainWindow" Height="600" Width="1280" FontSize="25">
+
 	<Grid>
 		<TabControl>
 			<TabControl.Items>
 				<TabItem Header="Word Play" Width="200" Height="40">
+					<local:WordPlay/>
 				</TabItem>
 				<TabItem Header="Type Word" Width="200" Height="40">
 					<local:TypeWord/>

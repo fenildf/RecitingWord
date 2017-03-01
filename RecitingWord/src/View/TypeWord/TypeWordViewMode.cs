@@ -1,6 +1,4 @@
-﻿using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +9,22 @@ using System.Windows.Input;
 
 namespace RecitingWord
 {
-    class TypeWordViewMode: NotificationObject
+    class TypeWordViewMode: MVVM.ViewModeBase
     {
         public static TypeWordViewMode Instance { get; } = new TypeWordViewMode();
         TypeWordViewMode()
         {
-            Load = new DelegateCommand<RecitingWord.TypeWord>(LoadHandle);
+            Load = new MVVM.Command(LoadHandle);
         }
 
-        private void LoadHandle(RecitingWord.TypeWord sender)
+        private void LoadHandle(object sender)
         {
-            sender.TypeWordsTextBox.TextChanged += TypeWordsTextBox_TextChanged;
+            if (sender as TypeWord != null)
+            {
+                (sender as TypeWord).TypeWordsTextBox.TextChanged += TypeWordsTextBox_TextChanged;
+
+            }
+
         }
 
         private void TypeWordsTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -70,8 +73,9 @@ namespace RecitingWord
             set
             {
                 _TypeWord = value;
-                RaisePropertyChanged(nameof(TypeWord));
+                ProperChange(nameof(TypeWord));
                 ShowWordListViewMode.Instance.Words = value;
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
@@ -83,7 +87,7 @@ namespace RecitingWord
             set
             {
                 _TypeWords = value;
-                RaisePropertyChanged(nameof(TypeWords));
+                ProperChange(nameof(TypeWords));
             }
         }
 
@@ -95,7 +99,7 @@ namespace RecitingWord
             set
             {
                 _Load = value;
-                RaisePropertyChanged(nameof(Load));
+                ProperChange(nameof(Load));
             }
         }
 

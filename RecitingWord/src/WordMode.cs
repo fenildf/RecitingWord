@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecitingWord
 {
-    class WordMode:Microsoft.Practices.Prism.ViewModel.NotificationObject
+    class WordMode:MVVM.ViewModeBase
     {
         public WordMode(string Word)
         {
@@ -20,19 +20,22 @@ namespace RecitingWord
             set
             {
                 _Word = value;
-                RaisePropertyChanged(nameof(Word));
+                ProperChange(nameof(Word));
             }
         }
         private string _WordExplaining;
         public string WordExplaining
         {
-            get { return _WordExplaining; }
+            get
+            {
+                return _WordExplaining;
+            }
             set
             {
                 if (_WordExplaining != value)
                 {
                     _WordExplaining = value;
-                    RaisePropertyChanged(nameof(WordExplaining));
+                    ProperChange(nameof(WordExplaining));
                 }
             }
         }
@@ -43,7 +46,7 @@ namespace RecitingWord
             set
             {
                 _ShowCount = value;
-                RaisePropertyChanged(nameof(ShowCount));
+                ProperChange(nameof(ShowCount));
             }
         }
 
@@ -54,7 +57,7 @@ namespace RecitingWord
             set
             {
                 _Frequency = value;
-                RaisePropertyChanged(nameof(Frequency));
+                ProperChange(nameof(Frequency));
             }
         }
 
@@ -65,12 +68,39 @@ namespace RecitingWord
             set
             {
                 _IsOk = value;
-                RaisePropertyChanged(nameof(IsOk));
+                ProperChange(nameof(IsOk));
             }
 
         }
 
+        private string _AmE;
+        public string AmE
+        {
+            get { return _AmE; }
+            set
+            {
+                if (_AmE != value)
+                {
+                    _AmE = value;
+                    ProperChange(nameof(AmE));
+                }
+            }
+        }
+        private string _BrE;
+        public string BrE
+        {
+            get { return _BrE; }
+            set
+            {
+                if (_BrE != value)
+                {
+                    _BrE = value;
+                    ProperChange(nameof(BrE));
+                }
+            }
+        }
 
+        public List<defs> defs { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -83,6 +113,20 @@ namespace RecitingWord
         public override int GetHashCode()
         {
             return this.Word.GetHashCode();
+        }
+
+        /// <summary>
+        /// 异步翻译
+        /// </summary>
+        public void AsynTrans()
+        {
+            Task.Run(() => {
+                var TransResult = BingTransApi.getTransResult(Word);
+                this.AmE = TransResult.AmE;
+                this.BrE = TransResult.BrE;
+                this.defs = TransResult.defs;
+                this.WordExplaining = string.Join("\r\n", defs);
+            });
         }
     }
 }

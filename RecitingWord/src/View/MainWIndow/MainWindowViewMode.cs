@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RecitingWord
 {
-    public class MainWindowViewMode:Microsoft.Practices.Prism.ViewModel.NotificationObject
+    public class MainWindowViewMode:MVVM.ViewModeBase
     {
         public static MainWindowViewMode Instance { get; } = new MainWindowViewMode();
         MainWindowViewMode()
@@ -23,7 +23,7 @@ namespace RecitingWord
             set
             {
                 _Tabs = value;
-                RaisePropertyChanged(nameof(Tabs));
+                ProperChange(nameof(Tabs));
             }
         }
    

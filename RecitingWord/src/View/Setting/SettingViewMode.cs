@@ -1,6 +1,4 @@
-﻿using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +8,7 @@ using System.Windows.Input;
 
 namespace RecitingWord
 {
-    class SettingViewMode : NotificationObject
+    class SettingViewMode : MVVM.ViewModeBase
     {
         static SettingViewMode _Instance = new SettingViewMode();
         public static SettingViewMode Instance
@@ -23,11 +21,18 @@ namespace RecitingWord
         }
         private SettingViewMode()
         {
-            StartPlay = new DelegateCommand(StartPlayClick, () => Status == PlayStatus.Stop && TypeWordViewMode.Instance.TypeWord.Count > 0);
-            StopPlay = new DelegateCommand(StopPlayClick, () => Status != PlayStatus.Stop);
+            StartPlay = new MVVM.Command(StartPlayClick, () => Status == PlayStatus.Stop && TypeWordViewMode.Instance.TypeWord.Count > 0);
+            StopPlay = new MVVM.Command(StopPlayClick, () => Status != PlayStatus.Stop);
+            OpenFile = new MVVM.Command(OpenFileClick);
+
             ShowTime = 3;
             FadeIn = 1;
             FadeOut = 1;
+        }
+
+        private void OpenFileClick()
+        {
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void StopPlayClick()
@@ -52,16 +57,9 @@ namespace RecitingWord
                     var WordIndex = 0;
                     while (true)
                     {
-
-                        while (WordPlayViewMode.Instance.WordOpacity <= 0)
-                        {
-                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity -= 1 / 30;
-                            Thread.Sleep((int)(FadeOut / 30 * 1000));
-                        }
-
                         if (Random)
                         {
-                            WordIndex = ran.Next(0,TypeWordViewMode.Instance.TypeWord.Count - 1);
+                            WordIndex = ran.Next(0, TypeWordViewMode.Instance.TypeWord.Count - 1);
                         }
                         else
                         {
@@ -71,10 +69,17 @@ namespace RecitingWord
                                 WordIndex = 0;
                             }
                         }
-
                         Word = TypeWordViewMode.Instance.TypeWord[WordIndex];
-                        WordPlayViewMode.Instance.Word = Word.Word;
-                        WordPlayViewMode.Instance.WordExplaining = Word.WordExplaining;
+                        Word.AsynTrans();
+                        Thread.Sleep((int)(ShowTime * 1000));
+
+                        while (WordPlayViewMode.Instance.WordOpacity <= 0)
+                        {
+                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity -= 1 / 30;
+                            Thread.Sleep((int)(FadeOut / 30 * 1000));
+                        }
+
+                        WordPlayViewMode.Instance.Word = Word;
 
                         while (WordPlayViewMode.Instance.WordOpacity >= 1)
                         {
@@ -82,7 +87,6 @@ namespace RecitingWord
                             Thread.Sleep((int)(FadeOut / 30 * 1000));
                         }
 
-                        Thread.Sleep((int)(ShowTime * 1000));
                     }
                 }));
 
@@ -96,7 +100,7 @@ namespace RecitingWord
             set
             {
                 _StartPlay = value;
-                RaisePropertyChanged(nameof(StartPlay));
+                ProperChange(nameof(StartPlay));
             }
         }
 
@@ -109,7 +113,7 @@ namespace RecitingWord
                 if (_StopPlay != value)
                 {
                     _StopPlay = value;
-                    RaisePropertyChanged(nameof(StopPlay));
+                    ProperChange(nameof(StopPlay));
                 }
             }
         }
@@ -123,7 +127,7 @@ namespace RecitingWord
                 if (_OpenFile != value)
                 {
                     _OpenFile = value;
-                    RaisePropertyChanged(nameof(OpenFile));
+                    ProperChange(nameof(OpenFile));
                 }
             }
         }
@@ -136,7 +140,7 @@ namespace RecitingWord
                 if (_Paste != value)
                 {
                     _Paste = value;
-                    RaisePropertyChanged(nameof(Paste));
+                    ProperChange(nameof(Paste));
                 }
             }
         }
@@ -150,7 +154,7 @@ namespace RecitingWord
                 if (_ShowTime != value)
                 {
                     _ShowTime = value;
-                    RaisePropertyChanged(nameof(ShowTime));
+                    ProperChange(nameof(ShowTime));
                 }
             }
         }
@@ -164,7 +168,7 @@ namespace RecitingWord
                 if (_FadeIn != value)
                 {
                     _FadeIn = value;
-                    RaisePropertyChanged(nameof(FadeIn));
+                    ProperChange(nameof(FadeIn));
                 }
             }
         }
@@ -177,7 +181,7 @@ namespace RecitingWord
                 if (_FadeOut != value)
                 {
                     _FadeOut = value;
-                    RaisePropertyChanged(nameof(FadeOut));
+                    ProperChange(nameof(FadeOut));
                 }
             }
         }
@@ -191,7 +195,7 @@ namespace RecitingWord
                 if (_Status != value)
                 {
                     _Status = value;
-                    RaisePropertyChanged(nameof(Status));
+                    ProperChange(nameof(Status));
                     CommandManager.InvalidateRequerySuggested();
                 }
             }
@@ -205,7 +209,7 @@ namespace RecitingWord
                 if (_Random != value)
                 {
                     _Random = value;
-                    RaisePropertyChanged(nameof(Random));
+                    ProperChange(nameof(Random));
                 }
             }
         }

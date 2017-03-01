@@ -12,15 +12,6 @@ namespace RecitingWord
 {
     class BingTransApi
     {
-        static BingTransApi _Instance = new BingTransApi();
-        public static BingTransApi Instance
-        {
-            get
-            {
-                return _Instance;
-            }
-
-        }
         private const String TRANS_API_HOST = "http://xtk.azurewebsites.net/BingDictService.aspx";
         public static BingTrans getTransResult(string Word)
         {
@@ -158,13 +149,22 @@ namespace RecitingWord
             }
             return new BingTrans(Word, Aem, BrE, defs);
         }
-        public string Word; public string AmE; public string BrE; public List<defs> defs;
+        public string Word;
+        public string AmE;
+        public string BrE;
+        public List<defs> defs;
+
+
     }
 
     public class defs
     {
         public string def;
         public string pos;
+        public override string ToString()
+        {
+            return $"{pos} {def}";
+        }
     }
 
 
