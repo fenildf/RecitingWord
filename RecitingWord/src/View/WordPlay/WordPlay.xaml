@@ -7,9 +7,9 @@
 			 DataContext="{Binding Source={x:Static local:WordPlayViewMode.Instance}}"
              mc:Ignorable="d" Background="Black">
 	<StackPanel  Height="Auto" Width="Auto" VerticalAlignment="center">
-		<TextBlock Text="{Binding Word.Word}"			Opacity="{Binding WordOpacity}"				TextAlignment="Center"							FontSize="170"	Foreground="Green"  Background="Black"	Margin="0,0,0,50"	VerticalAlignment="Top"/>
-		<TextBlock Text="{Binding Word.AmE}"			Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"/>
-		<TextBlock Text="{Binding Word.BrE}"			Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"/>
-		<TextBlock Text="{Binding Word.WordExplaining}"	Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"/>
+		<TextBlock Text="{Binding Word.Word}"			Opacity="{Binding WordOpacity}"				TextAlignment="Center"							FontSize="170"	Foreground="Green"  Background="Black"	Margin="0,0,0,50"	VerticalAlignment="Top"	FontFamily="Console"/>
+		<TextBlock Text="{Binding Word.AmE}"			Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"	FontFamily="Console"/>
+		<TextBlock Text="{Binding Word.BrE}"			Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"	FontFamily="Console"/>
+		<TextBlock Text="{Binding Word.WordExplaining}"	Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"	FontFamily="Console"/>
 	</StackPanel>
 </UserControl>

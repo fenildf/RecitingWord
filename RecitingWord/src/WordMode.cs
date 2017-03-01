@@ -120,6 +120,7 @@ namespace RecitingWord
         /// </summary>
         public void AsynTrans()
         {
+            if (string.IsNullOrWhiteSpace(WordExplaining))
             Task.Run(() => {
                 var TransResult = BingTransApi.getTransResult(Word);
                 this.AmE = TransResult.AmE;

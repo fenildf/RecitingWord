@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E25C1366-AF18-4E53-97B6-24F58394AEB5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RecitingWord</RootNamespace>
     <AssemblyName>RecitingWord</AssemblyName>
@@ -34,10 +34,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MVVM">
-      <HintPath>..\..\..\我的Dll库\MVVM\bin\Release\4.5\any\MVVM.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>C:\Users\zhangjingruPC\Documents\Visual Studio 2015\Projects\单词数量\单词数量\bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
@@ -145,7 +145,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\我的Dll库\MVVM\MVVM.csproj">
+      <Project>{b3be1ba4-f131-43bd-a353-b90a02eef335}</Project>
+      <Name>MVVM</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

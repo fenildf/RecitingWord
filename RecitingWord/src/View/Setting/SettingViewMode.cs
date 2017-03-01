@@ -21,18 +21,23 @@ namespace RecitingWord
         }
         private SettingViewMode()
         {
-            StartPlay = new MVVM.Command(StartPlayClick, () => Status == PlayStatus.Stop && TypeWordViewMode.Instance.TypeWord.Count > 0);
+            StartPlay = new MVVM.Command(StartPlayClick, StartPlayCanExecute);
             StopPlay = new MVVM.Command(StopPlayClick, () => Status != PlayStatus.Stop);
             OpenFile = new MVVM.Command(OpenFileClick);
 
             ShowTime = 3;
             FadeIn = 1;
             FadeOut = 1;
+            ran = new System.Random();
+        }
+        private bool StartPlayCanExecute()
+        {
+            return Status == PlayStatus.Stop && TypeWordViewMode.Instance.TypeWord.Count > 0;
         }
 
         private void OpenFileClick()
         {
-            CommandManager.InvalidateRequerySuggested();
+            MVVM.Command.OnAllCanExecuteChanged();
         }
 
         private void StopPlayClick()
@@ -46,12 +51,12 @@ namespace RecitingWord
 
             PlayThread = null;
             Status = PlayStatus.Stop;
-            ran = new System.Random();
         }
 
         private void StartPlayClick()
         {
-            if (PlayThread != null)
+            if (PlayThread == null)
+            {
                 PlayThread = new Thread(new ThreadStart(() => {
                     var Word = new WordMode("");
                     var WordIndex = 0;
@@ -73,22 +78,25 @@ namespace RecitingWord
                         Word.AsynTrans();
                         Thread.Sleep((int)(ShowTime * 1000));
 
-                        while (WordPlayViewMode.Instance.WordOpacity <= 0)
+                        while (WordPlayViewMode.Instance.WordOpacity > 0)
                         {
-                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity -= 1 / 30;
+                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity -= (1f / 30f);
                             Thread.Sleep((int)(FadeOut / 30 * 1000));
                         }
 
                         WordPlayViewMode.Instance.Word = Word;
 
-                        while (WordPlayViewMode.Instance.WordOpacity >= 1)
+                        while (WordPlayViewMode.Instance.WordOpacity < 1)
                         {
-                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity += 1 / 30;
+                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity += 1f / 30f;
                             Thread.Sleep((int)(FadeOut / 30 * 1000));
                         }
 
                     }
                 }));
+                PlayThread.IsBackground = true;
+                PlayThread.Start();
+            }
 
             Status = PlayStatus.Play;
         }
