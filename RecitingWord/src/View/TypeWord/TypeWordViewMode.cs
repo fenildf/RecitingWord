@@ -27,7 +27,7 @@ namespace RecitingWord
 
         }
 
-        private void TypeWordsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        public void TypeWordsTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var Textbox = sender as TextBox;
             if (Textbox != null)

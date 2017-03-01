@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace RecitingWord
@@ -21,25 +24,36 @@ namespace RecitingWord
         }
         private SettingViewMode()
         {
-            StartPlay = new MVVM.Command(StartPlayClick, StartPlayCanExecute);
+            StartPlay = new MVVM.Command(StartPlayClick, ()=> Status == PlayStatus.Stop && TypeWordViewMode.Instance.TypeWord.Count > 0);
             StopPlay = new MVVM.Command(StopPlayClick, () => Status != PlayStatus.Stop);
             OpenFile = new MVVM.Command(OpenFileClick);
-
+            Paste = new MVVM.Command(PasteClick);
             ShowTime = 3;
             FadeIn = 1;
             FadeOut = 1;
             ran = new System.Random();
+            ManualResetEvent = new ManualResetEvent(true);
+            ManualResetEvent.Set();
         }
-        private bool StartPlayCanExecute()
+
+        private void PasteClick()
         {
-            return Status == PlayStatus.Stop && TypeWordViewMode.Instance.TypeWord.Count > 0;
+            TypeWordViewMode.Instance.TypeWords = System.Windows.Forms.Clipboard.GetText();
         }
 
         private void OpenFileClick()
         {
-            MVVM.Command.OnAllCanExecuteChanged();
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Multiselect = true;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                Task.Run(() =>
+                {
+                    TypeWordViewMode.Instance.TypeWords = ReadAllFile(ofd.FileNames);
+                });
+            }
         }
-
+    
         private void StopPlayClick()
         {
             try
@@ -77,6 +91,7 @@ namespace RecitingWord
                         Word = TypeWordViewMode.Instance.TypeWord[WordIndex];
                         Word.AsynTrans();
                         Thread.Sleep((int)(ShowTime * 1000));
+                        ManualResetEvent.WaitOne();
 
                         while (WordPlayViewMode.Instance.WordOpacity > 0)
                         {
@@ -91,16 +106,35 @@ namespace RecitingWord
                             WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity += 1f / 30f;
                             Thread.Sleep((int)(FadeOut / 30 * 1000));
                         }
-
                     }
                 }));
                 PlayThread.IsBackground = true;
                 PlayThread.Start();
             }
 
+            ManualResetEvent.Set();
             Status = PlayStatus.Play;
         }
-
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        /// <param name="FileNames"></param>
+        /// <returns></returns>
+        string ReadAllFile(string[] FileNames)
+        {
+            StringBuilder Text = new StringBuilder();
+            foreach (var item in FileNames)
+            {
+                try
+                {
+                    Text.AppendLine(File.ReadAllText(item));
+                }
+                catch (Exception)
+                {
+                }
+            }
+            return Text.ToString();
+        }
         private ICommand _StartPlay;
         public ICommand StartPlay
         {
@@ -223,6 +257,7 @@ namespace RecitingWord
         }
         public Thread PlayThread { get; set; }
         public Random ran { get; set; }
+        public ManualResetEvent ManualResetEvent { get; set; }
     }
     enum PlayStatus
     {

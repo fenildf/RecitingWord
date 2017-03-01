@@ -5,7 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RecitingWord"
 			 DataContext="{Binding Source={x:Static local:WordPlayViewMode.Instance}}"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" Background="Black">
+
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="MouseLeave">
+			<i:InvokeCommandAction Command="{Binding MouseLeave}"  />
+		</i:EventTrigger>
+		<i:EventTrigger EventName="MouseEnter">
+			<i:InvokeCommandAction Command="{Binding MouseEnter}"  />
+		</i:EventTrigger>
+		<i:EventTrigger EventName="MouseDown">
+			<i:InvokeCommandAction Command="{Binding MouseDown}"  />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+	
 	<StackPanel  Height="Auto" Width="Auto" VerticalAlignment="center">
 		<TextBlock Text="{Binding Word.Word}"			Opacity="{Binding WordOpacity}"				TextAlignment="Center"							FontSize="170"	Foreground="Green"  Background="Black"	Margin="0,0,0,50"	VerticalAlignment="Top"	FontFamily="Console"/>
 		<TextBlock Text="{Binding Word.AmE}"			Opacity="{Binding WordExplainingOpacity}"	TextAlignment="Center"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"	Margin="0,0,0,5"	VerticalAlignment="Top"	FontFamily="Console"/>

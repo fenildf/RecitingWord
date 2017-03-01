@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace RecitingWord
 {
@@ -19,8 +20,26 @@ namespace RecitingWord
         }
         private WordPlayViewMode()
         {
-
+            MouseLeave = new MVVM.Command(() => Mouse = false);
+            MouseEnter = new MVVM.Command(() => Mouse = true);
+            MouseDown = new MVVM.Command(MouseDowneHandle);
+            
         }
+
+        private void MouseDowneHandle()
+        {
+            if (SettingViewMode.Instance.Status == PlayStatus.Stop)
+            {
+                SettingViewMode.Instance.ManualResetEvent.Set();
+                SettingViewMode.Instance.Status = PlayStatus.Play;
+            }
+            else
+            {
+                SettingViewMode.Instance.ManualResetEvent.Reset();
+                SettingViewMode.Instance.Status = PlayStatus.Stop;
+            }
+        }
+
         private WordMode _Word = new WordMode("");
         public WordMode Word
         {
@@ -55,7 +74,7 @@ namespace RecitingWord
         private double _WordExplainingOpacity = 1;
         public double WordExplainingOpacity
         {
-            get { return _WordExplainingOpacity; }
+            get { return Mouse? _WordExplainingOpacity : 0; }
             set
             {
                 if (_WordExplainingOpacity != value)
@@ -68,5 +87,59 @@ namespace RecitingWord
                 }
             }
         }
+
+        private ICommand _MouseLeave;
+        public ICommand MouseLeave
+        {
+            get { return _MouseLeave; }
+            set
+            {
+                if (_MouseLeave != value)
+                {
+                    _MouseLeave = value;
+                    ProperChange(nameof(MouseLeave));
+                }
+            }
+        }
+
+        private ICommand _MouseEnter;
+        public ICommand MouseEnter
+        {
+            get { return _MouseEnter; }
+            set
+            {
+                if (_MouseEnter != value)
+                {
+                    _MouseEnter = value;
+                    ProperChange(nameof(MouseEnter));
+                }
+            }
+        }
+
+        private ICommand _MouseDown;
+        public ICommand MouseDown
+        {
+            get { return _MouseDown; }
+            set
+            {
+                if (_MouseDown != value)
+                {
+                    _MouseDown = value;
+                    ProperChange(nameof(MouseDown));
+                }
+            }
+        }
+        private bool _Mouse;
+
+        public bool Mouse
+        {
+            get { return _Mouse; }
+            set
+            {
+                _Mouse = value;
+                ProperChange(nameof(WordExplainingOpacity));
+            }
+        }
+
     }
 }
