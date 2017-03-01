@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="RecitingWord.About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RecitingWord" FontSize="18"
+             mc:Ignorable="d" DataContext="{Binding Source={x:Static local:AboutViewMode.Instance}}"
+             d:DesignHeight="300" d:DesignWidth="600">
+	<StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center">
+		<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="使用方法："/>
+		
+		<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Text}"/>
+	</StackPanel>
+</UserControl>

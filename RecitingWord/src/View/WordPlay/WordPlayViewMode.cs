@@ -22,21 +22,18 @@ namespace RecitingWord
         {
             MouseLeave = new MVVM.Command(() => Mouse = false);
             MouseEnter = new MVVM.Command(() => Mouse = true);
-            MouseDown = new MVVM.Command(MouseDowneHandle);
-            
+            MouseLeftClick = new MVVM.Command(MouseLeftClickHandle);
         }
 
-        private void MouseDowneHandle()
+        private void MouseLeftClickHandle()
         {
-            if (SettingViewMode.Instance.Status == PlayStatus.Stop)
+            if (SettingViewMode.Instance.IsPlay)
             {
-                SettingViewMode.Instance.ManualResetEvent.Set();
-                SettingViewMode.Instance.Status = PlayStatus.Play;
+                SettingViewMode.Instance.SuspendPlay();
             }
             else
             {
-                SettingViewMode.Instance.ManualResetEvent.Reset();
-                SettingViewMode.Instance.Status = PlayStatus.Stop;
+                SettingViewMode.Instance.Play();
             }
         }
 
@@ -74,7 +71,7 @@ namespace RecitingWord
         private double _WordExplainingOpacity = 1;
         public double WordExplainingOpacity
         {
-            get { return Mouse? _WordExplainingOpacity : 0; }
+            get { return (Mouse| SettingViewMode.Instance.ShowExplain) ? _WordExplainingOpacity : 0; }
             set
             {
                 if (_WordExplainingOpacity != value)
@@ -116,19 +113,20 @@ namespace RecitingWord
             }
         }
 
-        private ICommand _MouseDown;
-        public ICommand MouseDown
+        private ICommand _MouseLeftClick;
+        public ICommand MouseLeftClick
         {
-            get { return _MouseDown; }
+            get { return _MouseLeftClick; }
             set
             {
-                if (_MouseDown != value)
+                if (_MouseLeftClick != value)
                 {
-                    _MouseDown = value;
-                    ProperChange(nameof(MouseDown));
+                    _MouseLeftClick = value;
+                    ProperChange(nameof(MouseLeftClick));
                 }
             }
         }
+
         private bool _Mouse;
 
         public bool Mouse

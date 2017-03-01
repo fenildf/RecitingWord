@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:RecitingWord" mc:Ignorable="d"
         DataContext="{Binding Source={x:Static local:MainWindowViewMode.Instance}}"
         Title="MainWindow" Height="600" Width="1280" FontSize="25">
-
+	<Window.InputBindings>
+		<KeyBinding Key="Delete"	Command="{Binding DeleteKeyDown}"/>
+		<KeyBinding Key="Left"		Command="{Binding Left}"	/>
+		<KeyBinding Key="Right"		Command="{Binding Right}"	/>
+		<KeyBinding Key="Up"		Command="{Binding Up}"		/>
+		<KeyBinding Key="Down"		Command="{Binding Down}"	/>
+		<KeyBinding Key="Space"		Command="{Binding Space}"	/>
+	</Window.InputBindings>
 	<Grid>
 		<TabControl>
 			<TabControl.Items>
@@ -21,6 +28,9 @@
 				</TabItem>
 				<TabItem Header="Setting" Width="200" Height="40">
 					<local:Setting/>
+				</TabItem>
+				<TabItem Header="About" Width="200" Height="40">
+					<local:About/>
 				</TabItem>
 			</TabControl.Items>
 		</TabControl>

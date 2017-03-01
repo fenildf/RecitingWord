@@ -22,10 +22,12 @@
     <Grid>
 		<DataGrid ItemsSource="{Binding Words}" ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" AutoGenerateColumns="False" HorizontalAlignment="Center">
 			<DataGrid.Columns>
-				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="Word" Binding="{Binding Word}" Width="2*" FontSize="18" />
-				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="ShowCount" Binding="{Binding ShowCount}" Width="2*" FontSize="18" />
+				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="Word" Binding="{Binding Word}" Width="*" FontSize="18" />
+				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="ShowCount" Binding="{Binding ShowCount}" Width="*" FontSize="18" />
 				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="Frequency" Binding="{Binding Frequency}" Width="*" FontSize="18" />
 				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="IsOk" Binding="{Binding IsOk}" Width="*" FontSize="18"/>
+				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="WordExplaining" Binding="{Binding WordExplaining}" Width="3*" FontSize="18"/>
+				
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

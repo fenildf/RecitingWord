@@ -14,6 +14,9 @@ namespace RecitingWord
         }
 
         private string _Word;
+        /// <summary>
+        /// 单词
+        /// </summary>
         public string Word
         {
             get { return _Word; }
@@ -24,6 +27,10 @@ namespace RecitingWord
             }
         }
         private string _WordExplaining;
+
+        /// <summary>
+        /// 解释
+        /// </summary>
         public string WordExplaining
         {
             get
@@ -40,6 +47,9 @@ namespace RecitingWord
             }
         }
         private int _ShowCount = 0;
+        /// <summary>
+        /// 显示次数
+        /// </summary>
         public int ShowCount
         {
             get { return _ShowCount; }
@@ -51,6 +61,9 @@ namespace RecitingWord
         }
 
         private int _Frequency = 0;
+        /// <summary>
+        /// 出现次数
+        /// </summary>
         public int Frequency
         {
             get { return _Frequency; }
@@ -62,6 +75,9 @@ namespace RecitingWord
         }
 
         private bool _IsOk;
+        /// <summary>
+        /// 已经熟悉
+        /// </summary>
         public bool IsOk
         {
             get { return _IsOk; }
@@ -114,7 +130,10 @@ namespace RecitingWord
         {
             return this.Word.GetHashCode();
         }
-
+        public override string ToString()
+        {
+            return Word;
+        }
         /// <summary>
         /// 异步翻译
         /// </summary>

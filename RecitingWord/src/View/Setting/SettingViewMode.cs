@@ -28,10 +28,14 @@ namespace RecitingWord
             StopPlay = new MVVM.Command(StopPlayClick, () => Status != PlayStatus.Stop);
             OpenFile = new MVVM.Command(OpenFileClick);
             Paste = new MVVM.Command(PasteClick);
-            ShowTime = 3;
-            FadeIn = 1;
-            FadeOut = 1;
-            ran = new System.Random();
+
+            ShowTime    = ProgramConfig.Default.ShowTime;
+            FadeIn      = ProgramConfig.Default.FadeIn;
+            FadeOut     = ProgramConfig.Default.FadeOut;
+            ShowExplain = ProgramConfig.Default.ShowExplain;
+            Random      = ProgramConfig.Default.Random;
+
+            ran         = new System.Random();
             ManualResetEvent = new ManualResetEvent(true);
             ManualResetEvent.Set();
         }
@@ -73,25 +77,44 @@ namespace RecitingWord
             {
                 PlayThread = new Thread(new ThreadStart(() => {
                     var Word = new WordMode("");
+                    List<WordMode> Words = new List<WordMode>();
+
                     var WordIndex = 0;
                     while (true)
                     {
-                        if (Random)
+                        var work = Task.Run(new Func<bool>(() =>
                         {
-                            WordIndex = ran.Next(0, TypeWordViewMode.Instance.TypeWord.Count - 1);
-                        }
-                        else
-                        {
-                            WordIndex += 1;
-                            if (WordIndex >= TypeWordViewMode.Instance.TypeWord.Count)
+                            Words = TypeWordViewMode.Instance.TypeWord.FindAll((index) => !index.IsOk);
+                            if (Words == null) return false;
+                            if (Words.Count <= 0) return false;
+
+                            if (Random)
                             {
-                                WordIndex = 0;
+                                WordIndex = ran.Next(0, Words.Count);
                             }
-                        }
-                        Word = TypeWordViewMode.Instance.TypeWord[WordIndex];
-                        Word.AsynTrans();
+                            else
+                            {
+                                WordIndex += 1;
+                                if (WordIndex >= TypeWordViewMode.Instance.TypeWord.Count)
+                                {
+                                    WordIndex = 0;
+                                }
+                            }
+                            Word = Words[WordIndex];
+                            Word.AsynTrans();
+
+                            return true;
+                        }));
+                       
                         Thread.Sleep((int)(ShowTime * 1000));
                         ManualResetEvent.WaitOne();
+                        Status = PlayStatus.Play;
+
+                        if (!work.Result)
+                        {
+                            Status = PlayStatus.Stop;
+                            return;
+                        }
 
                         while (WordPlayViewMode.Instance.WordOpacity > 0)
                         {
@@ -100,7 +123,7 @@ namespace RecitingWord
                         }
 
                         WordPlayViewMode.Instance.Word = Word;
-
+                        WordPlayViewMode.Instance.Word.ShowCount++;
                         while (WordPlayViewMode.Instance.WordOpacity < 1)
                         {
                             WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity += 1f / 30f;
@@ -197,6 +220,8 @@ namespace RecitingWord
                 {
                     _ShowTime = value;
                     ProperChange(nameof(ShowTime));
+                    ProgramConfig.Default.ShowTime = value;
+                    ProgramConfig.Default.Save();
                 }
             }
         }
@@ -211,6 +236,8 @@ namespace RecitingWord
                 {
                     _FadeIn = value;
                     ProperChange(nameof(FadeIn));
+                    ProgramConfig.Default.FadeIn = value;
+                    ProgramConfig.Default.Save();
                 }
             }
         }
@@ -224,6 +251,8 @@ namespace RecitingWord
                 {
                     _FadeOut = value;
                     ProperChange(nameof(FadeOut));
+                    ProgramConfig.Default.FadeOut = value;
+                    ProgramConfig.Default.Save();
                 }
             }
         }
@@ -252,12 +281,37 @@ namespace RecitingWord
                 {
                     _Random = value;
                     ProperChange(nameof(Random));
+                    ProgramConfig.Default.Random = value;
+                    ProgramConfig.Default.Save();
                 }
+            }
+        }
+        private bool _ShowExplain;
+        public bool ShowExplain
+        {
+            get { return _ShowExplain; }
+            set
+            {
+                SetProperty(ref _ShowExplain, value, nameof(ShowExplain));
+                ProgramConfig.Default.ShowExplain = value;
+                ProgramConfig.Default.Save();
             }
         }
         public Thread PlayThread { get; set; }
         public Random ran { get; set; }
-        public ManualResetEvent ManualResetEvent { get; set; }
+        private ManualResetEvent ManualResetEvent { get; set; }
+        public bool IsPlay { get { return Status == PlayStatus.Play; } }
+        public void Play()
+        {
+            Status = PlayStatus.Play;
+            ManualResetEvent.Set();
+        }
+        
+        public void SuspendPlay()
+        {
+            ManualResetEvent.Reset();
+            Status = PlayStatus.Stop;
+        }
     }
     enum PlayStatus
     {

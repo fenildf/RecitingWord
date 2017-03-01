@@ -41,6 +41,9 @@
 			<CheckBox  Margin="0 10" IsChecked="{Binding Random}">
 				<TextBlock Margin="0 -3" Text="Random"/>
 			</CheckBox>
+			<CheckBox  Margin="0 10" IsChecked="{Binding ShowExplain}">
+				<TextBlock Margin="0 -3" Text="Show Explain"/>
+			</CheckBox>
 		</StackPanel>
     </StackPanel>
 </UserControl>

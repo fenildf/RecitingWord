@@ -15,10 +15,12 @@
 		<i:EventTrigger EventName="MouseEnter">
 			<i:InvokeCommandAction Command="{Binding MouseEnter}"  />
 		</i:EventTrigger>
-		<i:EventTrigger EventName="MouseDown">
-			<i:InvokeCommandAction Command="{Binding MouseDown}"  />
-		</i:EventTrigger>
+		
 	</i:Interaction.Triggers>
+
+	<UserControl.InputBindings>
+		<MouseBinding MouseAction="LeftClick"  Command="{Binding MouseLeftClick}"/>
+	</UserControl.InputBindings>
 	
 	<StackPanel  Height="Auto" Width="Auto" VerticalAlignment="center">
 		<TextBlock Text="{Binding Word.Word}"			Opacity="{Binding WordOpacity}"				TextAlignment="Center"							FontSize="170"	Foreground="Green"  Background="Black"	Margin="0,0,0,50"	VerticalAlignment="Top"	FontFamily="Console"/>
