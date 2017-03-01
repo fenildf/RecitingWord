@@ -68,7 +68,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\Mysql\Mysql.cs" />
+    <Compile Include="src\TransApi\BaiDuTransApi.cs" />
+    <Compile Include="src\TransApi\BingTransApi.cs" />
+    <Compile Include="src\View\Setting\Setting.xaml.cs">
+      <DependentUpon>Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\View\Setting\SettingViewMode.cs" />
+    <Compile Include="src\View\ShowWordList\ShowWordListViewMode.cs" />
+    <Compile Include="src\View\WordPlay\WordPlay.xaml.cs">
+      <DependentUpon>WordPlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\View\WordPlay\WordPlayViewMode.cs" />
     <Compile Include="src\WordMode.cs" />
+    <Page Include="src\View\Setting\Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\View\ShowWordList\ShowWordList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -88,7 +104,7 @@
     <Compile Include="src\View\ShowWordList\ShowWordList.xaml.cs">
       <DependentUpon>ShowWordList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\View\TypeWord\TypeWord.cs" />
+    <Compile Include="src\View\TypeWord\TypeWordViewMode.cs" />
     <Compile Include="src\View\TypeWord\TypeWord.xaml.cs">
       <DependentUpon>TypeWord.xaml</DependentUpon>
     </Compile>
@@ -96,6 +112,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="src\View\WordPlay\WordPlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\View\MainWindow\MainWindowViewMode.cs" />
@@ -125,9 +145,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\View\Setting\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

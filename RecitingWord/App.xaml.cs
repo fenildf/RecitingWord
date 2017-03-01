@@ -15,6 +15,14 @@ namespace RecitingWord
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            try
+            {
+                //数据库初始化
+                Mysql.dbConnectInit("", "");
+            }
+            catch (Exception)
+            {
+            }
             MainWindow mw = new MainWindow();
             mw.Show();
             base.OnStartup(e);

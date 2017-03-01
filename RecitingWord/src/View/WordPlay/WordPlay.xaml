@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="RecitingWord.WordPlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RecitingWord"
+			 DataContext="{Binding Source={x:Static local:WordPlayViewMode.Instance}}"
+             mc:Ignorable="d">
+	<StackPanel  Height="Auto" Width="Auto" VerticalAlignment="center">
+		<TextBlock Text="{Binding Word}"			Opacity="{Binding WordOpacity}"				TextAlignment="Center"	FontSize="170"	Foreground="Green"  Background="Black" Margin="0,0,0,50"	VerticalAlignment="Top"/>
+		<TextBlock Text="{Binding WordExplaining}"	Opacity="{Binding WordExplainingOpacity}"	TextWrapping="Wrap"		FontSize="30"	Foreground="Green"  Background="Black"						VerticalAlignment="Top"/>
+	</StackPanel>
+</UserControl>

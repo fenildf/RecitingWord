@@ -63,7 +63,17 @@ namespace RecitingWord
         /// <summary>
         /// 单词
         /// </summary>
-        List<WordMode> TypeWord { get; set; }
+        private List<WordMode> _TypeWord = new List<WordMode>();
+        public List<WordMode> TypeWord
+        {
+            get { return _TypeWord; }
+            set
+            {
+                _TypeWord = value;
+                RaisePropertyChanged(nameof(TypeWord));
+                ShowWordListViewMode.Instance.Words = value;
+            }
+        }
 
         private string _TypeWords;
 
