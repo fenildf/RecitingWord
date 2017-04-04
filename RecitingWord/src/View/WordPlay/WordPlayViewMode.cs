@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,6 +24,7 @@ namespace RecitingWord
             MouseLeave = new MVVM.Command(() => Mouse = false);
             MouseEnter = new MVVM.Command(() => Mouse = true);
             MouseLeftClick = new MVVM.Command(MouseLeftClickHandle);
+    
         }
 
         private void MouseLeftClickHandle()
@@ -48,6 +50,7 @@ namespace RecitingWord
                     _Word = value;
                     ProperChange(nameof(Word));
                 }
+
             }
         }
         private double _WordOpacity = 1;

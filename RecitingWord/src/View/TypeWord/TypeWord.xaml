@@ -16,6 +16,6 @@
 	</i:Interaction.Triggers>
 
 	<Grid>
-		<TextBox x:Name="TypeWordsTextBox" Text="{Binding TypeWords}"/>
+		<TextBox x:Name="TypeWordsTextBox" Text="{Binding TypeWords}" TextWrapping="Wrap" AcceptsReturn ="True"/>
 	</Grid>
 </UserControl>

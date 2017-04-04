@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,10 +37,15 @@ namespace RecitingWord
             Random      = ProgramConfig.Default.Random;
 
             ran         = new System.Random();
-            ManualResetEvent = new ManualResetEvent(true);
-            ManualResetEvent.Set();
+            DelayManualResetEvent = new ManualResetEvent(true);
+            SuspendManualResetEvent = new ManualResetEvent(true);
+            SuspendManualResetEvent.Set();
+            DelayManualResetEvent.Set();
+            synth = new SpeechSynthesizer();
+            synth.Volume = ProgramConfig.Default.Volume;
         }
-
+        public SpeechSynthesizer synth { get; }
+        
         private void PasteClick()
         {
             TypeWordViewMode.Instance.TypeWords = System.Windows.Forms.Clipboard.GetText();
@@ -75,11 +81,13 @@ namespace RecitingWord
         {
             if (PlayThread == null)
             {
-                PlayThread = new Thread(new ThreadStart(() => {
+                PlayThread = new Thread(new ThreadStart(() => 
+                {
+                    var NextWord = false;
                     var Word = new WordMode("");
                     List<WordMode> Words = new List<WordMode>();
-
-                    var WordIndex = 0;
+                    WordsRecords.Clear();
+                    
                     while (true)
                     {
                         var work = Task.Run(new Func<bool>(() =>
@@ -88,54 +96,84 @@ namespace RecitingWord
                             if (Words == null) return false;
                             if (Words.Count <= 0) return false;
 
-                            if (Random)
+                    again:  if(Random)
                             {
                                 WordIndex = ran.Next(0, Words.Count);
                             }
                             else
                             {
                                 WordIndex += 1;
-                                if (WordIndex >= TypeWordViewMode.Instance.TypeWord.Count)
+                                if (WordIndex >= Words.Count)
                                 {
                                     WordIndex = 0;
                                 }
                             }
-                            Word = Words[WordIndex];
-                            Word.AsynTrans();
-
+                            if (WordIndex < Words.Count)
+                            {
+                                Word = Words[WordIndex];
+                                Word.AsynTrans();
+                            }
+                            else
+                            {
+                                goto again;
+                            }
                             return true;
                         }));
-                       
-                        Thread.Sleep((int)(ShowTime * 1000));
-                        ManualResetEvent.WaitOne();
-                        Status = PlayStatus.Play;
-
-                        if (!work.Result)
+                        DelayManualResetEvent.Reset();
+                        //Thread.Sleep((int)(ShowTime * 1000));
+                        NextWord = DelayManualResetEvent.WaitOne((int)(ShowTime * 1000));
+                        SuspendManualResetEvent.WaitOne();
+                        if (!NextWord)
                         {
-                            Status = PlayStatus.Stop;
-                            return;
+                            Status = PlayStatus.Play;
+
+                            if (!work.Result)
+                            {
+                                Status = PlayStatus.Stop;
+                                return;
+                            }
+
+                            if(!NextWord)
+                            while (WordPlayViewMode.Instance.WordOpacity > 0)
+                            {
+                                WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity -= (1f / 30f);
+                                //Thread.Sleep((int)(FadeOut / 30 * 1000));
+                                if (NextWord = DelayManualResetEvent.WaitOne((int)(FadeOut / 30 * 1000))) break;
+                            }
+
+
+                            WordPlayViewMode.Instance.Word = Word;
+                            WordPlayViewMode.Instance.Word.ShowCount++;
+                            if (!NextWord)
+                            while (WordPlayViewMode.Instance.WordOpacity < 1)
+                            {
+                                WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity += 1f / 30f;
+                                //Thread.Sleep((int)(FadeOut / 30 * 1000));
+                                if (NextWord = DelayManualResetEvent.WaitOne((int)(FadeOut / 30 * 1000))) break;
+                            }
+                        }
+                        else
+                        {
+                            WordPlayViewMode.Instance.Word = Word;
+                            WordPlayViewMode.Instance.Word.ShowCount++;
                         }
 
-                        while (WordPlayViewMode.Instance.WordOpacity > 0)
+                        if (NextWord)
                         {
-                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity -= (1f / 30f);
-                            Thread.Sleep((int)(FadeOut / 30 * 1000));
+                            WordPlayViewMode.Instance.WordOpacity = 1;
+                            WordPlayViewMode.Instance.WordExplainingOpacity = 1;
                         }
 
-                        WordPlayViewMode.Instance.Word = Word;
-                        WordPlayViewMode.Instance.Word.ShowCount++;
-                        while (WordPlayViewMode.Instance.WordOpacity < 1)
-                        {
-                            WordPlayViewMode.Instance.WordExplainingOpacity = WordPlayViewMode.Instance.WordOpacity += 1f / 30f;
-                            Thread.Sleep((int)(FadeOut / 30 * 1000));
-                        }
+                        WordsRecords.Add(Word);
+                        BackIndex = WordsRecords.Count - 1;
+                        synth.SpeakAsync(Word.Word);
                     }
                 }));
                 PlayThread.IsBackground = true;
                 PlayThread.Start();
             }
-
-            ManualResetEvent.Set();
+            SuspendManualResetEvent.Set();
+            DelayManualResetEvent.Set();
             Status = PlayStatus.Play;
         }
         /// <summary>
@@ -297,25 +335,108 @@ namespace RecitingWord
                 ProgramConfig.Default.Save();
             }
         }
+        public int WordIndex { get; set; } = 0;
+        public int BackIndex 
+        {
+            get;
+            set;
+        } = 0;
+
+        public List<WordMode> WordsRecords { get; set; } = new List<WordMode>();
         public Thread PlayThread { get; set; }
         public Random ran { get; set; }
-        private ManualResetEvent ManualResetEvent { get; set; }
+        private ManualResetEvent DelayManualResetEvent { get; set; }
+        private ManualResetEvent SuspendManualResetEvent { get; set; }
         public bool IsPlay { get { return Status == PlayStatus.Play; } }
         public void Play()
         {
+            if (Status != PlayStatus.Stop)
+            {
+                StartPlayClick();
+            }
             Status = PlayStatus.Play;
-            ManualResetEvent.Set();
+            SuspendManualResetEvent.Set();
         }
-        
+
         public void SuspendPlay()
         {
-            ManualResetEvent.Reset();
-            Status = PlayStatus.Stop;
+            SuspendManualResetEvent.Reset();
+            Status = PlayStatus.Pause;
+        }
+
+        public void NextWord()
+        {
+            SuspendPlay();
+            BackIndex++;
+            if (BackIndex < WordsRecords.Count && BackIndex > 0)
+            {
+                WordPlayViewMode.Instance.Word = WordsRecords[BackIndex];
+                WordPlayViewMode.Instance.Word.ShowCount++;
+                synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+            }
+            else
+            {
+                
+
+                Task.Run(new Func<bool>(() =>
+                {
+                    var Word = new WordMode("");
+                    List<WordMode> Words = new List<WordMode>();
+                    WordsRecords.Clear();
+
+                    Words = TypeWordViewMode.Instance.TypeWord.FindAll((index) => !index.IsOk);
+                    if (Words == null) return false;
+                    if (Words.Count <= 0) return false;
+
+                    again: if (Random)
+                    {
+                        WordIndex = ran.Next(0, Words.Count);
+                    }
+                    else
+                    {
+                        WordIndex += 1;
+                        if (WordIndex >= Words.Count)
+                        {
+                            WordIndex = 0;
+                        }
+                    }
+                    if (WordIndex < Words.Count)
+                    {
+                        Word = Words[WordIndex];
+                        Word.AsynTrans();
+                    }
+                    else
+                    {
+                        goto again;
+                    }
+
+                    WordPlayViewMode.Instance.Word = Word;
+                    WordPlayViewMode.Instance.Word.ShowCount++;
+
+                    WordsRecords.Add(Word);
+                    BackIndex = WordsRecords.Count - 1;
+                    synth.SpeakAsync(Word.Word);
+                    return true;
+                }));
+            }
+        }
+        public void BackWord()
+        {
+            SuspendPlay();
+            BackIndex--;
+            if (BackIndex < WordsRecords.Count && BackIndex > 0)
+            {
+                WordPlayViewMode.Instance.Word = WordsRecords[BackIndex];
+                WordPlayViewMode.Instance.Word.ShowCount++;
+                synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+            }
         }
     }
     enum PlayStatus
     {
         Stop,
+        Pause,
         Play,
+
     }
 }

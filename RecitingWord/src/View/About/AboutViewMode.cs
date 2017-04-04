@@ -30,6 +30,7 @@ Setting 界面下的 Random 复选框可以选择是否随机显示单词列表
 Setting 界面下的 Show Explain 复选框可以选择是否一直显示释义
 将鼠标放在单词上可以显示释义
 
+
 n.   （noun）名词
 adv. （adverb）副词
 adj. （adjective）形容词

@@ -15,6 +15,7 @@ namespace RecitingWord
         TypeWordViewMode()
         {
             Load = new MVVM.Command(LoadHandle);
+            TypeWord = ParseStringToWords(ProgramConfig.Default.WordHistory);
         }
 
         private void LoadHandle(object sender)
@@ -22,7 +23,7 @@ namespace RecitingWord
             if (sender as TypeWord != null)
             {
                 (sender as TypeWord).TypeWordsTextBox.TextChanged += TypeWordsTextBox_TextChanged;
-
+                (sender as TypeWord).TypeWordsTextBox.Text = ProgramConfig.Default.WordHistory;
             }
 
         }
@@ -33,6 +34,8 @@ namespace RecitingWord
             if (Textbox != null)
             {
                 TypeWord = ParseStringToWords(Textbox.Text);
+                ProgramConfig.Default.WordHistory = Textbox.Text;
+                ProgramConfig.Default.Save();
             }
         }
 
@@ -40,6 +43,7 @@ namespace RecitingWord
         Regex MatchWord = new Regex("([A-Z]|[a-z])[a-z]+", RegexOptions.Compiled);
         List<WordMode> ParseStringToWords(string Word)
         {
+            if (string.IsNullOrWhiteSpace(Word)) return new List<WordMode>();
             Dictionary<WordMode, int> Words = new Dictionary<WordMode, int>();
             var MatchResult = MatchWord.Matches(Word);
             foreach (Match item in MatchResult)

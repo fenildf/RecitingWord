@@ -24,6 +24,7 @@ namespace RecitingWord
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = MainWindowViewMode.Instance;
         }
     }
 }
