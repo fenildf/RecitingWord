@@ -166,7 +166,7 @@ namespace RecitingWord
 
                         WordsRecords.Add(Word);
                         BackIndex = WordsRecords.Count - 1;
-                        synth.SpeakAsync(Word.Word);
+                        SpeakAsync();
                     }
                 }));
                 PlayThread.IsBackground = true;
@@ -335,6 +335,16 @@ namespace RecitingWord
                 ProgramConfig.Default.Save();
             }
         }
+        private bool _WordsDistinct;
+        public bool WordsDistinct
+        {
+            get { return _WordsDistinct; }
+            set
+            {
+                SetProperty(ref _WordsDistinct, value, nameof(WordsDistinct));
+            }
+        }
+        
         public int WordIndex { get; set; } = 0;
         public int BackIndex 
         {
@@ -372,17 +382,14 @@ namespace RecitingWord
             {
                 WordPlayViewMode.Instance.Word = WordsRecords[BackIndex];
                 WordPlayViewMode.Instance.Word.ShowCount++;
-                synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+                SpeakAsync();
             }
             else
             {
-                
-
                 Task.Run(new Func<bool>(() =>
                 {
                     var Word = new WordMode("");
                     List<WordMode> Words = new List<WordMode>();
-                    WordsRecords.Clear();
 
                     Words = TypeWordViewMode.Instance.TypeWord.FindAll((index) => !index.IsOk);
                     if (Words == null) return false;
@@ -415,7 +422,7 @@ namespace RecitingWord
 
                     WordsRecords.Add(Word);
                     BackIndex = WordsRecords.Count - 1;
-                    synth.SpeakAsync(Word.Word);
+                    SpeakAsync();
                     return true;
                 }));
             }
@@ -428,8 +435,13 @@ namespace RecitingWord
             {
                 WordPlayViewMode.Instance.Word = WordsRecords[BackIndex];
                 WordPlayViewMode.Instance.Word.ShowCount++;
-                synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+                SpeakAsync();
             }
+        }
+
+        public void SpeakAsync()
+        {
+            synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
         }
     }
     enum PlayStatus

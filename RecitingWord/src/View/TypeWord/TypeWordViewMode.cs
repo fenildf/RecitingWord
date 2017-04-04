@@ -36,6 +36,10 @@ namespace RecitingWord
                 TypeWord = ParseStringToWords(Textbox.Text);
                 ProgramConfig.Default.WordHistory = Textbox.Text;
                 ProgramConfig.Default.Save();
+                SettingViewMode.Instance.BackIndex = 0;
+                SettingViewMode.Instance.WordIndex = 0;
+                SettingViewMode.Instance.WordsRecords.Clear();
+                
             }
         }
 
@@ -46,24 +50,36 @@ namespace RecitingWord
             if (string.IsNullOrWhiteSpace(Word)) return new List<WordMode>();
             Dictionary<WordMode, int> Words = new Dictionary<WordMode, int>();
             var MatchResult = MatchWord.Matches(Word);
-            foreach (Match item in MatchResult)
+            if (SettingViewMode.Instance.WordsDistinct)
             {
-                if (Words.ContainsKey(new WordMode(item.Value)))
+                foreach (Match item in MatchResult)
                 {
-                    Words[new WordMode(item.Value)]++;
+                    if (Words.ContainsKey(new WordMode(item.Value)))
+                    {
+                        Words[new WordMode(item.Value)]++;
+                    }
+                    else
+                    {
+                        Words.Add(new WordMode(item.Value), 1);
+                    }
                 }
-                else
-                {
-                    Words.Add(new WordMode(item.Value), 1);
-                }
-            }
 
-            foreach (var Item in Words)
+                foreach (var Item in Words)
+                {
+                    Item.Key.Frequency = Item.Value;
+                }
+
+                return Words.Keys.ToList();
+            }
+            else
             {
-                Item.Key.Frequency = Item.Value;
+                var words = new List<WordMode>();
+                foreach (Match item in MatchResult)
+                {
+                    words.Add(new WordMode(item.Value));
+                }
+                return words;
             }
-
-            return Words.Keys.ToList();
         }
 
 

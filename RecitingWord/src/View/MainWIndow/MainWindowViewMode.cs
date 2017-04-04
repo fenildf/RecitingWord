@@ -70,6 +70,11 @@ namespace RecitingWord
                 else
                     SettingViewMode.Instance.Play();
             });
+
+            T_Key = new MVVM.Command(() =>
+            {
+                SettingViewMode.Instance.SpeakAsync();
+            });
         }
 
         private void Numer0Handle()
@@ -187,6 +192,20 @@ namespace RecitingWord
             get { return _Loaded; }
             set { SetProperty(ref _Loaded, value, nameof(Loaded)); }
         }
+        private ICommand _R_Key;
+        public ICommand R_Key
+        {
+            get { return _R_Key; }
+            set { SetProperty(ref _R_Key, value, nameof(R_Key)); }
+        }
+
+        private ICommand _T_Key;
+        public ICommand T_Key
+        {
+            get { return _T_Key; }
+            set { SetProperty(ref _T_Key, value, nameof(T_Key)); }
+        }
+        
     }
 
 

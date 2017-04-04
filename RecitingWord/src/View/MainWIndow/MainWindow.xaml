@@ -27,6 +27,8 @@
 		<KeyBinding Key="NumPad0"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="S"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="E"	Command="{Binding Numer0}"/>
+		<KeyBinding Key="E"	Command="{Binding R_Key}"/>
+		<KeyBinding Key="T"	Command="{Binding T_Key}"/>
 		<MouseBinding Command="{Binding WheelClick}" MouseAction="WheelClick" Gesture=""/>
 	</Window.InputBindings>
 	<Grid>
