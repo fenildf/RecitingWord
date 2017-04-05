@@ -106,5 +106,17 @@ namespace RecitingWord {
                 this["WordHistory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int RepetitionFrequency {
+            get {
+                return ((int)(this["RepetitionFrequency"]));
+            }
+            set {
+                this["RepetitionFrequency"] = value;
+            }
+        }
     }
 }

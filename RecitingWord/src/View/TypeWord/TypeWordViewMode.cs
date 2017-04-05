@@ -22,8 +22,9 @@ namespace RecitingWord
         {
             if (sender as TypeWord != null)
             {
-                (sender as TypeWord).TypeWordsTextBox.TextChanged += TypeWordsTextBox_TextChanged;
-                (sender as TypeWord).TypeWordsTextBox.Text = ProgramConfig.Default.WordHistory;
+                TypeWordWindow = (sender as TypeWord);
+                TypeWordWindow.TypeWordsTextBox.TextChanged += TypeWordsTextBox_TextChanged;
+                TypeWordWindow.TypeWordsTextBox.Text = ProgramConfig.Default.WordHistory;
             }
 
         }
@@ -49,39 +50,101 @@ namespace RecitingWord
         {
             if (string.IsNullOrWhiteSpace(Word)) return new List<WordMode>();
             Dictionary<WordMode, int> Words = new Dictionary<WordMode, int>();
+            var WordList = new List<WordMode>();
+
             var MatchResult = MatchWord.Matches(Word);
-            if (SettingViewMode.Instance.WordsDistinct)
+            if (SettingViewMode.Instance.WordsDistinct) //如果唯一
             {
-                foreach (Match item in MatchResult)
+                if (SettingViewMode.Instance.RepetitionFrequency > 0) //如果设置重复频率
                 {
-                    if (Words.ContainsKey(new WordMode(item.Value)))
+                    foreach (Match item in MatchResult)
                     {
-                        Words[new WordMode(item.Value)]++;
-                    }
-                    else
-                    {
-                        Words.Add(new WordMode(item.Value), 1);
+                        if (Words.ContainsKey(new WordMode(item.Value)))
+                        {
+                            Words[new WordMode(item.Value)]++;
+
+                            if (Words[new WordMode(item.Value)] >= SettingViewMode.Instance.RepetitionFrequency) //如果到达重复
+                            {
+                                foreach (var Item in Words)
+                                {
+                                    Item.Key.Frequency = Item.Value;
+                                }
+                                WordList.AddRange(from wi in Words select wi.Key);
+                                Words.Clear();
+                            }
+                        }
+                        else
+                        {
+                            Words.Add(new WordMode(item.Value), 1);
+                        }
                     }
                 }
-
+                else//如果没设置重复频率
+                {
+                    foreach (Match item in MatchResult)
+                    {
+                        if (Words.ContainsKey(new WordMode(item.Value)))
+                        {
+                            Words[new WordMode(item.Value)]++;
+                        }
+                        else
+                        {
+                            Words.Add(new WordMode(item.Value), 1);
+                        }
+                    }
+                }
                 foreach (var Item in Words)
                 {
                     Item.Key.Frequency = Item.Value;
+                    WordList.Add(Item.Key);
                 }
-
-                return Words.Keys.ToList();
+                return WordList;
             }
-            else
+            else//如果允许重复
             {
-                var words = new List<WordMode>();
-                foreach (Match item in MatchResult)
+                if (SettingViewMode.Instance.RepetitionFrequency > 0)//如果设置重复频率
                 {
-                    words.Add(new WordMode(item.Value));
+                    foreach (Match item in MatchResult)
+                    {
+                        if (Words.ContainsKey(new WordMode(item.Value)))
+                        {
+                            Words[new WordMode(item.Value)]++;
+
+                            if (Words[new WordMode(item.Value)] >= SettingViewMode.Instance.RepetitionFrequency) //如果到达重复
+                            {
+                                foreach (var Item in Words)
+                                {
+                                    Item.Key.Frequency = Item.Value;
+                                }
+                                WordList.AddRange(from wi in Words select wi.Key);
+                                Words.Clear();
+                            }
+                        }
+                        else
+                        {
+                            Words.Add(new WordMode(item.Value), 1);
+                        }
+                    }
+                    foreach (var Item in Words)
+                    {
+                        Item.Key.Frequency = Item.Value;
+                        WordList.Add(Item.Key);
+                    }
+                    return WordList;
                 }
-                return words;
+                else //如果没设置重复频率
+                {
+                    var words = new List<WordMode>();
+                    foreach (Match item in MatchResult)
+                    {
+                        words.Add(new WordMode(item.Value));
+                    }
+                    return words;
+                }
             }
         }
 
+        public TypeWord TypeWordWindow { get; set; }
 
         /// <summary>
         /// 单词

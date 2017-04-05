@@ -93,7 +93,7 @@ namespace RecitingWord
 
         private void EndHandle()
         {
-
+            SettingViewMode.Instance.SpeakAsync();
         }
 
         private void LoadedHandle(object sender)

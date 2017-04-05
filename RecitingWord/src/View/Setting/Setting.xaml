@@ -17,24 +17,30 @@
 			<Button Content="Stop" Command="{Binding StopPlay}"/>
 			<Button Content="Open File" Command="{Binding OpenFile}"/>
 			<Button Content="Paste" Command="{Binding Paste}"/>
+			<Button Content="Reload Words" Command="{Binding ReloadWords}"/>
 
 
 		</StackPanel>
 		<StackPanel  Margin="50 0 10 0">
+			<TextBlock Margin="0 10" Text="Word Index" TextAlignment="Right"/>
 			<TextBlock Margin="0 10" Text="ShowTime" TextAlignment="Right"/>
 			<TextBlock Margin="0 10" Text=""/>
 			<TextBlock Margin="0 10" Text="Fade In" TextAlignment="Right"/>
 			<TextBlock Margin="0 8" Text=""/>
 			<TextBlock Margin="0 10" Text="Fade Out" TextAlignment="Right"/>
+			<TextBlock Margin="0 8" Text=""/>
+			<TextBlock Margin="0 10" Text="Repetition Frequency" TextAlignment="Right"/>
 		</StackPanel>
 		<StackPanel Width="200" >
+			<TextBox Margin="0 10" Text="{Binding ManualWordIndex}"/>
 			<TextBox Margin="0 10" Text="{Binding ShowTime,StringFormat='f1'}"/>
 			<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding ShowTime,StringFormat='f1'}"/>
 			<TextBox Margin="0 10" Text="{Binding FadeIn,StringFormat='f1'}"/>
 			<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding FadeIn,StringFormat='f1'}"/>
 			<TextBox Margin="0 10" Text="{Binding FadeOut,StringFormat='f1'}"/>
 			<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding FadeOut,StringFormat='f1'}"/>
-
+			<TextBox Margin="0 10" Text="{Binding RepetitionFrequency}"/>
+			<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding RepetitionFrequency}"/>
 			<TextBlock Text=""/>
 
 			<CheckBox  Margin="0 10" IsChecked="{Binding Random}">

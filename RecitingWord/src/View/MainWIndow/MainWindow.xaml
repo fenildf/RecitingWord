@@ -29,6 +29,7 @@
 		<KeyBinding Key="E"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="E"	Command="{Binding R_Key}"/>
 		<KeyBinding Key="T"	Command="{Binding T_Key}"/>
+		<KeyBinding Key="PageDown"	Command="{Binding Numer0}"/>
 		<MouseBinding Command="{Binding WheelClick}" MouseAction="WheelClick" Gesture=""/>
 	</Window.InputBindings>
 	<Grid>

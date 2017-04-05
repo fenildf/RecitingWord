@@ -30,10 +30,20 @@ namespace RecitingWord
 
             MainWindow mw = new MainWindow();
             mw.Show();
-
+            mw.Closed += Closed;
             WordPlayViewMode.Instance.Word = wm;
-            //wm
+            Application.Current.Exit += Exit;
             base.OnStartup(e);
+        }
+
+        private void Exit(object sender, ExitEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Closed(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

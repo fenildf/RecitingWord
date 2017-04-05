@@ -29,6 +29,8 @@ namespace RecitingWord
             StopPlay = new MVVM.Command(StopPlayClick, () => Status != PlayStatus.Stop);
             OpenFile = new MVVM.Command(OpenFileClick);
             Paste = new MVVM.Command(PasteClick);
+            ReloadWords = new MVVM.Command(ReloadWordsClick);
+            
 
             ShowTime    = ProgramConfig.Default.ShowTime;
             FadeIn      = ProgramConfig.Default.FadeIn;
@@ -43,7 +45,15 @@ namespace RecitingWord
             DelayManualResetEvent.Set();
             synth = new SpeechSynthesizer();
             synth.Volume = ProgramConfig.Default.Volume;
+            RepetitionFrequency = ProgramConfig.Default.RepetitionFrequency;
         }
+
+        private void ReloadWordsClick()
+        {
+            TypeWordViewMode.Instance.
+                TypeWordsTextBox_TextChanged(TypeWordViewMode.Instance.TypeWordWindow.TypeWordsTextBox, null);
+        }
+
         public SpeechSynthesizer synth { get; }
         
         private void PasteClick()
@@ -247,6 +257,12 @@ namespace RecitingWord
                 }
             }
         }
+        private ICommand _ReloadWords;
+        public ICommand ReloadWords
+        {
+            get { return _ReloadWords; }
+            set { SetProperty(ref _ReloadWords, value, nameof(ReloadWords)); }
+        }
 
         private double _ShowTime;
         public double ShowTime
@@ -295,6 +311,18 @@ namespace RecitingWord
             }
         }
 
+        private int _RepetitionFrequency;
+        public int RepetitionFrequency
+        {
+            get { return _RepetitionFrequency; }
+            set
+            {
+                SetProperty(ref _RepetitionFrequency, value, nameof(RepetitionFrequency));
+                ProgramConfig.Default.RepetitionFrequency = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+
         private PlayStatus _Status = PlayStatus.Stop;
         public PlayStatus Status
         {
@@ -336,6 +364,9 @@ namespace RecitingWord
             }
         }
         private bool _WordsDistinct;
+        /// <summary>
+        /// 单词唯一
+        /// </summary>
         public bool WordsDistinct
         {
             get { return _WordsDistinct; }
@@ -351,7 +382,12 @@ namespace RecitingWord
             get;
             set;
         } = 0;
-
+        private int _ManualWordIndex;
+        public int ManualWordIndex
+        {
+            get { return _ManualWordIndex; }
+            set { SetProperty(ref _ManualWordIndex, value, nameof(ManualWordIndex)); BackIndex = WordIndex = value; }
+        }
         public List<WordMode> WordsRecords { get; set; } = new List<WordMode>();
         public Thread PlayThread { get; set; }
         public Random ran { get; set; }
