@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:RecitingWord" mc:Ignorable="d"
 		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         DataContext="{Binding Source={x:Static local:MainWindowViewMode.Instance}}"
+		Topmost="{Binding Source={x:Static local:SettingViewMode.Instance},Path=Topmost}"
 		Focusable="True"   WindowStartupLocation = "CenterScreen"  x:Name="Window"
 		InputMethod.IsInputMethodEnabled="False"
-        Title="MainWindow" Height="600" Width="1280" FontSize="25">
+        Title="本程序不兼容Bing词典或类似软件 请关闭类似软件  designer by zhangjingru qq80785535" Height="600" Width="1280" FontSize="25">
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">
 			<i:InvokeCommandAction Command="{Binding Loaded}" CommandParameter="{Binding ElementName=Window}"/>
@@ -18,18 +19,20 @@
 		<KeyBinding Key="Delete"	Command="{Binding DeleteKeyDown}"/>
 		<KeyBinding Key="Left"		Command="{Binding Left}"	/>
 		<KeyBinding Key="Right"		Command="{Binding Right}"	/>
-		<KeyBinding Key="Up"		Command="{Binding Up}"	/>
-		<KeyBinding Key="Down"		Command="{Binding Down}"/>
+		<KeyBinding Key="Up"		Command="{Binding PageDown}"	/>
+		<KeyBinding Key="Down"		Command="{Binding Numer0}"/>
 		<KeyBinding Key="Space"		Command="{Binding Space}"/>
 		<KeyBinding Key="Esc"		Command="{Binding Esc}"/>
 		<KeyBinding Key="Enter"		Command="{Binding Enter}"/>
-		<KeyBinding Key="End"		Command="{Binding End}"/>
 		<KeyBinding Key="NumPad0"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="S"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="E"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="E"	Command="{Binding R_Key}"/>
 		<KeyBinding Key="T"	Command="{Binding T_Key}"/>
-		<KeyBinding Key="PageDown"	Command="{Binding Numer0}"/>
+		<KeyBinding Key="PageDown"	Command="{Binding Down}"/>
+		<KeyBinding Key="PageUp"	Command="{Binding Up}"/>
+		<KeyBinding Key="End"		Command="{Binding End}"/>
+		<KeyBinding Key="A"		Command="{Binding A}"/>
 		<MouseBinding Command="{Binding WheelClick}" MouseAction="WheelClick" Gesture=""/>
 	</Window.InputBindings>
 	<Grid>

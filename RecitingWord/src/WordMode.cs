@@ -92,7 +92,11 @@ namespace RecitingWord
         private string _AmE;
         public string AmE
         {
-            get { return _AmE; }
+            get
+            {
+                if (!SettingViewMode.Instance.ShowPhonetic) return string.Empty;
+                return _AmE;
+            }
             set
             {
                 if (_AmE != value)
@@ -105,7 +109,11 @@ namespace RecitingWord
         private string _BrE;
         public string BrE
         {
-            get { return _BrE; }
+            get
+            {
+                if (!SettingViewMode.Instance.ShowPhonetic) return string.Empty;
+                return _BrE;
+            }
             set
             {
                 if (_BrE != value)
@@ -141,11 +149,18 @@ namespace RecitingWord
         {
             if (string.IsNullOrWhiteSpace(WordExplaining))
             Task.Run(() => {
-                var TransResult = BingTransApi.getTransResult(Word);
-                this.AmE = TransResult.AmE;
-                this.BrE = TransResult.BrE;
-                this.defs = TransResult.defs;
-                this.WordExplaining = string.Join("\r\n", defs);
+                try
+                {
+                    var TransResult = BingTransApi.getTransResult(Word);
+                    this.AmE = TransResult.AmE;
+                    this.BrE = TransResult.BrE;
+                    this.defs = TransResult.defs;
+                    this.WordExplaining = string.Join("\r\n", defs);
+                }
+                catch (Exception)
+                {
+                    
+                }
             });
         }
     }

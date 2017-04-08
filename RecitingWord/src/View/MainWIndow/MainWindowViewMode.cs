@@ -19,6 +19,9 @@ namespace RecitingWord
             Loaded = new MVVM.Command(LoadedHandle);
             End = new MVVM.Command(EndHandle);
             Numer0 = new MVVM.Command(Numer0Handle);
+            PageDown = new MVVM.Command(PageDownHandle);
+            A = new MVVM.Command(AHandle);
+            
             Up = new MVVM.Command(() =>
             {
                 try
@@ -73,8 +76,18 @@ namespace RecitingWord
 
             T_Key = new MVVM.Command(() =>
             {
-                SettingViewMode.Instance.SpeakAsync();
+                SettingViewMode.Instance.RereadAsync();
             });
+        }
+
+        private void AHandle()
+        {
+            SettingViewMode.Instance.AutoGetWord = !SettingViewMode.Instance.AutoGetWord;
+        }
+
+        private void PageDownHandle()
+        {
+            SettingViewMode.Instance.RereadAsync();
         }
 
         private void Numer0Handle()
@@ -93,7 +106,7 @@ namespace RecitingWord
 
         private void EndHandle()
         {
-            SettingViewMode.Instance.SpeakAsync();
+            Numer0Handle();
         }
 
         private void LoadedHandle(object sender)
@@ -205,7 +218,18 @@ namespace RecitingWord
             get { return _T_Key; }
             set { SetProperty(ref _T_Key, value, nameof(T_Key)); }
         }
-        
+        private ICommand _PageDown;
+        public ICommand PageDown
+        {
+            get { return _PageDown; }
+            set { SetProperty(ref _PageDown, value, nameof(PageDown)); }
+        }
+        private ICommand _A;
+        public ICommand A
+        {
+            get { return _A; }
+            set { SetProperty(ref _A, value, nameof(A)); }
+        }
     }
 
 

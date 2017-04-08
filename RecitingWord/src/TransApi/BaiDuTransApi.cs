@@ -41,7 +41,7 @@ namespace RecitingWord
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("{0}:{1}", i, jsonResult);
+                    //Console.WriteLine("{0}:{1}", i, jsonResult);
                 }
             }
             return resule;

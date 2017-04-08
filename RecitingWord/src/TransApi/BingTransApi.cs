@@ -19,12 +19,12 @@ namespace RecitingWord
             BingTrans Result = null;
             if ((Result = getDataBaseTransResult(Word)) != null)
             {
-                Console.WriteLine("DataBase : {0}", Word);
+                //Console.WriteLine("DataBase : {0}", Word);
                 return Result;
             }
             else
             {
-                Console.WriteLine("web : {0}", Word);
+                //Console.WriteLine("web : {0}", Word);
                 Result = getWebTransResult(Word);
                 TransResultToDataBase(Result);
                 return Result;
@@ -45,7 +45,7 @@ namespace RecitingWord
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("getWebTransResult()->{0}:{2}:{1}", i, ex.Message, Word);
+                    //Console.WriteLine("getWebTransResult()->{0}:{2}:{1}", i, ex.Message, Word);
                     ErrorRecords(Word, string.Format("i = {2},jsonResult = {0},ex.Message = {1}", jsonResult, ex.Message, i));
                 }
             }
@@ -66,7 +66,7 @@ namespace RecitingWord
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"读取数据库失败：{Word}：{ex.Message}");
+                //Console.WriteLine($"读取数据库失败：{Word}：{ex.Message}");
                 ErrorRecords(Word, nameof(getDataBaseTransResult) + ex.Message);
                 return null;
             }
@@ -87,7 +87,7 @@ namespace RecitingWord
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"导入数据库失败：{bt.Word}：{ex.Message}");
+                    //Console.WriteLine($"导入数据库失败：{bt.Word}：{ex.Message}");
                     ErrorRecords(bt.Word, nameof(TransResultToDataBase) + ex.Message);
                 }
             }
@@ -101,7 +101,7 @@ namespace RecitingWord
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ErrorRecords()->{0}", ex.Message);
+                //Console.WriteLine("ErrorRecords()->{0}", ex.Message);
             }
         }
     }
@@ -144,7 +144,7 @@ namespace RecitingWord
             }
             catch (Exception ex)
             {
-                Console.WriteLine("json解析错误->{0},message = {1}", Json, ex.Message);
+                //Console.WriteLine("json解析错误->{0},message = {1}", Json, ex.Message);
                 BingTransApi.ErrorRecords("BulidBingTransError", string.Format("json = {0},message = {1}", Json, ex.Message));
             }
             return new BingTrans(Word, Aem, BrE, defs);

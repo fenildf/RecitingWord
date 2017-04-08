@@ -33,6 +33,17 @@ namespace RecitingWord
                 ProperChange(nameof(Words));
             }
         }
-
+        private int _SelectIndex;
+        public int SelectIndex
+        {
+            get { return _SelectIndex; }
+            set
+            {
+                SetProperty(ref _SelectIndex, value, nameof(SelectIndex));
+                SettingViewMode.Instance.BackIndex =
+                SettingViewMode.Instance.ManualWordIndex =
+                SettingViewMode.Instance.WordIndex = value;
+            }
+        }
     }
 }

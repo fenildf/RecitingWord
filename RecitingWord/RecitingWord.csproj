@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E25C1366-AF18-4E53-97B6-24F58394AEB5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RecitingWord</RootNamespace>
     <AssemblyName>RecitingWord</AssemblyName>
@@ -65,12 +65,21 @@
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>RecitingWord.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
       <HintPath>C:\Users\zhangjingruPC\Documents\Visual Studio 2015\Projects\单词数量\单词数量\bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>C:\Users\zhangjingruPC\Documents\Visual Studio 2015\Projects\单词数量\单词数量\bin\Debug\Newtonsoft.Json.dll</HintPath>
+      <HintPath>bin\RecitingWord\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -111,6 +120,10 @@
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\View\About\AboutViewMode.cs" />
+    <Compile Include="src\View\Load\Load.xaml.cs">
+      <DependentUpon>Load.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\View\Load\LoadViewMode.cs" />
     <Compile Include="src\View\Setting\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
@@ -120,8 +133,13 @@
       <DependentUpon>WordPlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\View\WordPlay\WordPlayViewMode.cs" />
+    <Compile Include="src\Win32API.cs" />
     <Compile Include="src\WordMode.cs" />
     <Page Include="src\View\About\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\View\Load\Load.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,6 +203,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="RecitingWord.pfx" />
     <None Include="src\ProgramConfig.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ProgramConfig.Designer.cs</LastGenOutput>

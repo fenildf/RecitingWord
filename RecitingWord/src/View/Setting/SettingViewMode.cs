@@ -44,9 +44,19 @@ namespace RecitingWord
             SuspendManualResetEvent.Set();
             DelayManualResetEvent.Set();
             synth = new SpeechSynthesizer();
-            synth.Volume = ProgramConfig.Default.Volume;
-            RepetitionFrequency = ProgramConfig.Default.RepetitionFrequency;
+            synth.Volume            = ProgramConfig.Default.Volume;
+            synth.SpeakCompleted    += Synth_SpeakCompleted;
+            Rate                    = ProgramConfig.Default.Rate;
+            RepetitionFrequency     = ProgramConfig.Default.RepetitionFrequency;
+            RereadRate              = ProgramConfig.Default.RereadRate;
+            MinWordLength           = ProgramConfig.Default.MinWordLength;
+            MySqlConnectionString   = ProgramConfig.Default.MySqlConnectionString;
+            AutoGetWord     = ProgramConfig.Default.AutoGetWord;
+            Topmost         = ProgramConfig.Default.Topmost;
+            ShowPhonetic    = ProgramConfig.Default.ShowPhonetic;
         }
+
+
 
         private void ReloadWordsClick()
         {
@@ -81,7 +91,7 @@ namespace RecitingWord
                 if (PlayThread != null)
                     PlayThread.Abort();
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex) { /*Console.WriteLine(ex.Message);*/ }
 
             PlayThread = null;
             Status = PlayStatus.Stop;
@@ -388,6 +398,98 @@ namespace RecitingWord
             get { return _ManualWordIndex; }
             set { SetProperty(ref _ManualWordIndex, value, nameof(ManualWordIndex)); BackIndex = WordIndex = value; }
         }
+        private int _Rate;
+        public int Rate
+        {
+            get { return _Rate; }
+            set
+            {
+                SetProperty(ref _Rate, value, nameof(Rate));
+                try
+                {
+                    synth.Rate = value;
+                    ProgramConfig.Default.Rate = value;
+                    ProgramConfig.Default.Save();
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+        private int _RereadRate;
+        public int RereadRate
+        {
+            get { return _RereadRate; }
+            set
+            {
+                SetProperty(ref _RereadRate, value, nameof(RereadRate));
+                ProgramConfig.Default.RereadRate = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+
+        private int _MinWordLength;
+        public int MinWordLength
+        {
+            get { return _MinWordLength; }
+            set
+            {
+                SetProperty(ref _MinWordLength, value, nameof(MinWordLength));
+                ProgramConfig.Default.MinWordLength = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+
+        private string _MySqlConnectionString;
+        public string MySqlConnectionString
+        {
+            get { return _MySqlConnectionString; }
+            set
+            {
+                SetProperty(ref _MySqlConnectionString, value, nameof(MySqlConnectionString));
+                ProgramConfig.Default.MySqlConnectionString = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+
+        public bool ConnectionMysql
+        {
+            get { return Mysql.IsHaveDatabase; }
+            set {  }
+        }
+        private bool _AutoGetWord;
+        public bool AutoGetWord
+        {
+            get { return _AutoGetWord; }
+            set
+            {
+                SetProperty(ref _AutoGetWord, value, nameof(AutoGetWord));
+                ProgramConfig.Default.AutoGetWord = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+        private bool _Topmost;
+        public bool Topmost
+        {
+            get { return _Topmost; }
+            set
+            {
+                SetProperty(ref _Topmost, value, nameof(Topmost));
+                ProgramConfig.Default.Topmost = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+        private bool _ShowPhonetic;
+        public bool ShowPhonetic
+        {
+            get { return _ShowPhonetic; }
+            set
+            {
+                SetProperty(ref _ShowPhonetic, value, nameof(ShowPhonetic));
+                ProgramConfig.Default.ShowPhonetic = value;
+                ProgramConfig.Default.Save();
+            }
+        }
         public List<WordMode> WordsRecords { get; set; } = new List<WordMode>();
         public Thread PlayThread { get; set; }
         public Random ran { get; set; }
@@ -475,9 +577,39 @@ namespace RecitingWord
             }
         }
 
+
+        string overlayWord;
         public void SpeakAsync()
         {
-            synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+            synth.Rate = Rate;
+            if (synth.State == SynthesizerState.Ready)
+                synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+            else
+                overlayWord = WordPlayViewMode.Instance.Word.Word;
+        }
+
+        public void RereadAsync()
+        {
+            synth.Rate = RereadRate;
+            if (synth.State == SynthesizerState.Ready)
+                synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
+            else
+                overlayWord = WordPlayViewMode.Instance.Word.Word;
+        }
+        private void Synth_SpeakCompleted(object sender, SpeakCompletedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(overlayWord))
+            {
+                synth?.SpeakAsync(overlayWord);
+                overlayWord = string.Empty;
+            }
+        }
+
+        public void Read(string Word)
+        {
+            WordPlayViewMode.Instance.Word = new WordMode(Word);
+            WordPlayViewMode.Instance.Word.AsynTrans();
+            SpeakAsync();
         }
     }
     enum PlayStatus

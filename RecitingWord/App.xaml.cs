@@ -15,25 +15,28 @@ namespace RecitingWord
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            try
-            {
-                //数据库初始化
-                Mysql.dbConnectInit("", "");
-            }
-            catch (Exception)
-            {
-            }
 
-            WordMode wm = new WordMode("Asynchronous");
+           var LoadWindow = new View.Load();
+            LoadWindow.Show();
+            Task.Run(()=> {
+                try
+                {
+                    Mysql.dbConnectInit("", "");//数据库初始化
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            });
 
-            wm.AsynTrans();
 
             MainWindow mw = new MainWindow();
             mw.Show();
             mw.Closed += Closed;
-            WordPlayViewMode.Instance.Word = wm;
+            //WordPlayViewMode.Instance.Word = wm;
             Application.Current.Exit += Exit;
             base.OnStartup(e);
+            LoadWindow.Close();
         }
 
         private void Exit(object sender, ExitEventArgs e)

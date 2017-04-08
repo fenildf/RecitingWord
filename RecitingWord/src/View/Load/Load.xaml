@@ -1,0 +1,18 @@
+﻿<Window x:Class="RecitingWord.View.Load"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" FontSize="30" WindowStyle="None"  AllowsTransparency ="True"
+        xmlns:V="clr-namespace:RecitingWord.View"
+
+		WindowStartupLocation ="CenterScreen" Foreground ="Black"
+		DataContext="{Binding Source={x:Static V:LoadViewMode.Instance}}"
+        Title="Load" Height="199.743" Width="465.81">
+	<Window.Background>
+		<SolidColorBrush Opacity="0.5" Color="White"/>
+	</Window.Background>
+	<StackPanel VerticalAlignment="Center">
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground ="Black" Text="{Binding Title}" />
+	</StackPanel>
+</Window>

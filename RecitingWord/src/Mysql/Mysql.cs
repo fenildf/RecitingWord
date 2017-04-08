@@ -11,12 +11,16 @@ namespace RecitingWord
     class Mysql
     {
         static string connectStr = "";
-        static MySqlConnection mySqlConnection = null;
+        public static MySqlConnection mySqlConnection = null;
+        public static bool IsHaveDatabase = false;
         public static bool dbConnectInit(string serverName, string portName)
         {
-            connectStr = "server=127.0.0.1;port=3306;user id=root;password=normanbzhroot;database=dictionary;charset=utf8";
+            IsHaveDatabase = false;
+            connectStr = "server=127.0.0.1;port=3306;user id=root;password=normanbzhroot;database=dictionary;charset=utf8";//ProgramConfig.Default.MySqlConnectionString;
             mySqlConnection = new MySqlConnection(connectStr);
+            Console.WriteLine(connectStr);
             mySqlConnection.Open();
+            IsHaveDatabase = true;
             return true;
         }
 
@@ -46,11 +50,13 @@ namespace RecitingWord
 
         public static int Insert(string sql)
         {
+            if (!IsHaveDatabase) return 0;
             return Insert(sql, null);
         }
 
         public static int Query(string sql)
         {
+
             int result;
             try
             {
@@ -90,12 +96,16 @@ namespace RecitingWord
 
         public static DataSet Query(string sql, string tableName)
         {
+            if (!IsHaveDatabase) return new DataSet();
+
             tableName = (string.IsNullOrWhiteSpace(tableName) ? "0" : tableName);
             return Query(sql, null, tableName);
         }
 
         public static void Update(string sql, string tableName, DataSet ds)
         {
+            if (!IsHaveDatabase) return;
+
             using (MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sql, mySqlConnection))
             {
                 try
@@ -114,6 +124,8 @@ namespace RecitingWord
 
         public static int Update(string sql)
         {
+            if (!IsHaveDatabase) return 0;
+
             return Query(sql);
         }
 
@@ -167,6 +179,8 @@ namespace RecitingWord
 
         public static int Transaction(List<string> sqlList)
         {
+            if (!IsHaveDatabase) return 0;
+
             bool flag = sqlList.Count > 0;
             int result;
             if (flag)
