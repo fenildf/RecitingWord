@@ -202,5 +202,17 @@ namespace RecitingWord {
                 this["ShowPhonetic"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int WordClickFontSize {
+            get {
+                return ((int)(this["WordClickFontSize"]));
+            }
+            set {
+                this["WordClickFontSize"] = value;
+            }
+        }
     }
 }

@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RecitingWord" mc:Ignorable="d"
+        xmlns:V="clr-namespace:RecitingWord.View"
 		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         DataContext="{Binding Source={x:Static local:MainWindowViewMode.Instance}}"
 		Topmost="{Binding Source={x:Static local:SettingViewMode.Instance},Path=Topmost}"
 		Focusable="True"   WindowStartupLocation = "CenterScreen"  x:Name="Window"
 		InputMethod.IsInputMethodEnabled="False"
         Title="本程序不兼容Bing词典或类似软件 请关闭类似软件  designer by zhangjingru qq80785535" Height="600" Width="1280" FontSize="25">
+	<!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">
 			<i:InvokeCommandAction Command="{Binding Loaded}" CommandParameter="{Binding ElementName=Window}"/>
@@ -40,6 +42,9 @@
 			<TabControl.Items>
 				<TabItem Header="Word Play" Width="200" Height="40" >
 					<local:WordPlay Focusable="True"/>
+				</TabItem>
+				<TabItem Header="Word Click" Width="200" Height="40" >
+					<V:WordClick Focusable="True"/>
 				</TabItem>
 				<TabItem Header="Type Word" Width="200" Height="40" >
 					<local:TypeWord/>

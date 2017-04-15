@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E25C1366-AF18-4E53-97B6-24F58394AEB5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RecitingWord</RootNamespace>
     <AssemblyName>RecitingWord</AssemblyName>
@@ -72,9 +72,11 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>RecitingWord.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="MySql.Data">
       <HintPath>C:\Users\zhangjingruPC\Documents\Visual Studio 2015\Projects\单词数量\单词数量\bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
@@ -84,6 +86,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Speech" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,6 +119,8 @@
     </Compile>
     <Compile Include="src\TransApi\BaiDuTransApi.cs" />
     <Compile Include="src\TransApi\BingTransApi.cs" />
+    <Compile Include="src\TransApi\GoogleTransApi.cs" />
+    <Compile Include="src\TransApi\JavaScriptHandle.cs" />
     <Compile Include="src\View\About\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -129,12 +134,19 @@
     </Compile>
     <Compile Include="src\View\Setting\SettingViewMode.cs" />
     <Compile Include="src\View\ShowWordList\ShowWordListViewMode.cs" />
+    <Compile Include="src\View\WordClick\WordClick.xaml.cs">
+      <DependentUpon>WordClick.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\View\WordClick\WordClickViewMode.cs" />
     <Compile Include="src\View\WordPlay\WordPlay.xaml.cs">
       <DependentUpon>WordPlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\View\WordPlay\WordPlayViewMode.cs" />
     <Compile Include="src\Win32API.cs" />
     <Compile Include="src\WordMode.cs" />
+    <Compile Include="Test.xaml.cs">
+      <DependentUpon>Test.xaml</DependentUpon>
+    </Compile>
     <Page Include="src\View\About\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,7 +186,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="src\View\WordClick\Template.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\View\WordClick\WordClick.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\View\WordPlay\WordPlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,7 +227,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="RecitingWord.pfx" />
     <None Include="src\ProgramConfig.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>ProgramConfig.Designer.cs</LastGenOutput>
@@ -230,6 +253,9 @@
       <Project>{b3be1ba4-f131-43bd-a353-b90a02eef335}</Project>
       <Name>MVVM</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\TransApi\HTMLPage.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

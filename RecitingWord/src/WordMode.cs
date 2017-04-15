@@ -3,16 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace RecitingWord
 {
-    class WordMode:MVVM.ViewModeBase
+   public class WordMode:MVVM.ViewModeBase
     {
         public WordMode(string Word)
         {
             this.Word = Word;
-        }
+            //ToolTipOpening = new MVVM.Command();
+            this.AsynTrans();
+            Command = new MVVM.Command((sender) => 
+            {
+                SettingViewMode.Instance.RereadAsync(this.Word);
+                //var button = sender as Button;
+                //if (button == null) return;
+                //Trans();
 
+                var text = new TextBlock();
+                var p = new Popup();
+                text.Text = Word;
+                p.Child = text;
+                p.IsOpen = true;
+            });
+
+        }
+        public ICommand Command { get; set; }
+        public ICommand ToolTipOpening { get; set; }
         private string _Word;
         /// <summary>
         /// 单词
@@ -151,7 +171,8 @@ namespace RecitingWord
             Task.Run(() => {
                 try
                 {
-                    var TransResult = BingTransApi.getTransResult(Word);
+                    //var TransResult = BingTransApi.getTransResult(Word);
+                    var TransResult = GoogleTransApi.Instance.getTransResult(Word);
                     this.AmE = TransResult.AmE;
                     this.BrE = TransResult.BrE;
                     this.defs = TransResult.defs;
@@ -162,6 +183,25 @@ namespace RecitingWord
                     
                 }
             });
+        }
+        public void Trans()
+        {
+            if (string.IsNullOrWhiteSpace(WordExplaining))
+            {
+                try
+                {
+                    //var TransResult = BingTransApi.getTransResult(Word);
+                    var TransResult = GoogleTransApi.Instance.getTransResult(Word);
+                    this.AmE = TransResult.AmE;
+                    this.BrE = TransResult.BrE;
+                    this.defs = TransResult.defs;
+                    this.WordExplaining = string.Join("\r\n", defs);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
     }
 }

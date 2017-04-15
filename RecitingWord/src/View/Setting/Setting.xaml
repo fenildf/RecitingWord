@@ -89,20 +89,21 @@
 			</TabItem>
 			<TabItem Header="            ">
 				<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-					<StackPanel  Margin="50 0 10 0">
-						<TextBlock Margin="0 10" Text=""/>
-					</StackPanel>
+					
 						
 					<StackPanel  Margin="50 0 10 0">
 						<CheckBox  Margin="0 10" IsChecked="{Binding ShowPhonetic}">
 							<TextBlock Margin="0 -3" Text="Show Phonetic"/>
 						</CheckBox>
 					</StackPanel>
-					<StackPanel Width="150" >
+					<StackPanel Width="200" >
+						<TextBlock Margin="0 10" Text="Word Click Font Size" TextAlignment="Right"/>
 					</StackPanel>
 					<StackPanel  Margin="50 0 10 0">
 					</StackPanel>
 					<StackPanel  Margin="0 0 10 0" Width="150">
+						<TextBox Margin="0 10" Text="{Binding WordClickFontSize}"/>
+						<Slider Margin="0 10" Minimum="10" Maximum="100" Value="{Binding WordClickFontSize}"/>
 					</StackPanel>
 				</StackPanel>
 			</TabItem>

@@ -15,8 +15,9 @@ namespace RecitingWord
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            //var result = GoogleTransApi.Instance.getTransResult("Application");
 
-           var LoadWindow = new View.Load();
+            var LoadWindow = new View.Load();
             LoadWindow.Show();
             Task.Run(()=> {
                 try

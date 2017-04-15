@@ -71,7 +71,7 @@ namespace RecitingWord
                 return null;
             }
         }
-        static void TransResultToDataBase(BingTrans bt)
+        public static void TransResultToDataBase(BingTrans bt)
         {
             if (bt != null)
             {

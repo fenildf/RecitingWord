@@ -5,7 +5,7 @@
     <Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<!--<ResourceDictionary Source="src/View/MainWindow.xaml"/>-->
+				<ResourceDictionary Source="src/View/WordClick/Template.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
     </Application.Resources>

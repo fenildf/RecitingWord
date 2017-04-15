@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 /*
@@ -635,35 +634,12 @@ namespace MVVM
         {
             return Marshal.SizeOf(type);
         }
-        //public static IList<T> ToList<T>(this DataTable table) where T : new()
-        //{
-        //    IList<T> ts = new List<T>();
-        //    T t = new T();
-        //    string tempName = "";
-        //    PropertyInfo[] propertys = t.GetType().GetProperties();
-        //    foreach (DataRow row in table.Rows)
-        //    {
-        //        t = new T();
-        //        foreach (PropertyInfo pi in propertys)
-        //        {
-        //            tempName = pi.Name;
-        //            if (table.Columns.Contains(tempName))
-        //            {
-        //                if (!pi.CanWrite)
-        //                    continue;
-        //                object value = row[tempName];
-        //                if (value != DBNull.Value)
-        //                    pi.SetValue(t, value, null);
-        //            }
-        //        }
-        //        ts.Add(t);
-        //    }
-        //    return ts;
-        //}
 
 
-
-
+        public static string GetEnumeratorString<T>(this T collection,string separator = ",") where T : IEnumerable<T>
+        {
+            return string.Join(separator, collection);
+        }
     }
 
     public enum HashType

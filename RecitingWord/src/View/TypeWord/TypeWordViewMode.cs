@@ -45,14 +45,15 @@ namespace RecitingWord
         }
 
 
-        public Regex MatchWord = new Regex("([A-Z]|[a-z])+", RegexOptions.Compiled);
+        public Regex MatchWord = new Regex(@"(([A-Z]|[a-z])+)|(['\'\,\.])", RegexOptions.Compiled);
         List<WordMode> ParseStringToWords(string Word)
         {
             var Words = ParseString(Word);
             if (Words == null) return new List<WordMode>();
             if (Words.Count <= 0) return new List<WordMode>();
-            return (from item in Words where item.Word.Length >= SettingViewMode.Instance.MinWordLength select item).ToList();
-
+            Words = (from item in Words where item.Word.Length >= SettingViewMode.Instance.MinWordLength select item).ToList();
+            View.WordClickViewMode.Instance.AddWrods(Words);
+            return Words;
         }
 
         private List<WordMode> ParseString(string Word)

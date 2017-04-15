@@ -54,6 +54,7 @@ namespace RecitingWord
             AutoGetWord     = ProgramConfig.Default.AutoGetWord;
             Topmost         = ProgramConfig.Default.Topmost;
             ShowPhonetic    = ProgramConfig.Default.ShowPhonetic;
+            WordClickFontSize = ProgramConfig.Default.WordClickFontSize;
         }
 
 
@@ -490,6 +491,18 @@ namespace RecitingWord
                 ProgramConfig.Default.Save();
             }
         }
+        private int _WordClickFontSize;
+        public int WordClickFontSize
+        {
+            get { return _WordClickFontSize; }
+            set
+            {
+                SetProperty(ref _WordClickFontSize, value, nameof(WordClickFontSize));
+                ProgramConfig.Default.WordClickFontSize = value;
+                ProgramConfig.Default.Save();
+            }
+        }
+        //WordClickFontSize
         public List<WordMode> WordsRecords { get; set; } = new List<WordMode>();
         public Thread PlayThread { get; set; }
         public Random ran { get; set; }
@@ -595,6 +608,14 @@ namespace RecitingWord
                 synth?.SpeakAsync(WordPlayViewMode.Instance.Word.Word);
             else
                 overlayWord = WordPlayViewMode.Instance.Word.Word;
+        }
+        public void RereadAsync(string word)
+        {
+            synth.Rate = RereadRate;
+            if (synth.State == SynthesizerState.Ready)
+                synth?.SpeakAsync(word);
+            else
+                overlayWord = word;
         }
         private void Synth_SpeakCompleted(object sender, SpeakCompletedEventArgs e)
         {
