@@ -12,101 +12,84 @@
 			<Setter Property="Margin" Value="0 10"/>
 		</Style>
 	</UserControl.Resources>
-	<TabControl>
-		<TabControl.Items>
-			<TabItem Header="            ">
-				<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-					<StackPanel   Margin="0 0 50 0" VerticalAlignment="Center">
-						<Button Content="Start Play" Command="{Binding StartPlay}"/>
-						<Button Content="Stop" Command="{Binding StopPlay}"/>
-						<Button Content="Open File" Command="{Binding OpenFile}"/>
-						<Button Content="Paste" Command="{Binding Paste}"/>
-						<Button Content="Reload Words" Command="{Binding ReloadWords}"/>
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+					<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+						<StackPanel   Margin="0 0 50 0" VerticalAlignment="Center">
+							<Button Content="Start Play" Command="{Binding StartPlay}"/>
+							<Button Content="Stop" Command="{Binding StopPlay}"/>
+							<Button Content="Open File" Command="{Binding OpenFile}"/>
+							<Button Content="Paste" Command="{Binding Paste}"/>
+							<Button Content="Reload Words" Command="{Binding ReloadWords}"/>
 
 
-					</StackPanel>
-					<StackPanel  Margin="50 0 10 0">
-						<TextBlock Margin="0 10" Text="Word Index" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" Text="ShowTime" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" Text=""/>
-						<TextBlock Margin="0 10" Text="Fade In" TextAlignment="Right"/>
-						<TextBlock Margin="0 8" Text=""/>
-						<TextBlock Margin="0 10" Text="Fade Out" TextAlignment="Right"/>
-						<TextBlock Margin="0 8" Text=""/>
-						<TextBlock Margin="0 10" Text="Repetition Frequency" TextAlignment="Right"/>
-					</StackPanel>
-					<StackPanel Width="150" >
-						<TextBox Margin="0 10" Text="{Binding ManualWordIndex}"/>
-						<TextBox Margin="0 10" Text="{Binding ShowTime,StringFormat='f1'}"/>
-						<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding ShowTime,StringFormat='f1'}"/>
-						<TextBox Margin="0 10" Text="{Binding FadeIn,StringFormat='f1'}"/>
-						<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding FadeIn,StringFormat='f1'}"/>
-						<TextBox Margin="0 10" Text="{Binding FadeOut,StringFormat='f1'}"/>
-						<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding FadeOut,StringFormat='f1'}"/>
-						<TextBox Margin="0 10" Text="{Binding RepetitionFrequency}"/>
-						<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding RepetitionFrequency}"/>
-						<TextBlock Text=""/>
+						</StackPanel>
+						<StackPanel  Margin="50 0 10 0">
+							<TextBlock Margin="0 10" Text="Word Index" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" Text="ShowTime" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" Text=""/>
+							<TextBlock Margin="0 10" Text="Fade In" TextAlignment="Right"/>
+							<TextBlock Margin="0 8" Text=""/>
+							<TextBlock Margin="0 10" Text="Fade Out" TextAlignment="Right"/>
+							<TextBlock Margin="0 8" Text=""/>
+							<TextBlock Margin="0 10" Text="Repetition Frequency" TextAlignment="Right"/>
+						</StackPanel>
+						<StackPanel Width="150" >
+							<TextBox Margin="0 10" Text="{Binding ManualWordIndex}"/>
+							<TextBox Margin="0 10" Text="{Binding ShowTime,StringFormat='f1'}"/>
+							<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding ShowTime,StringFormat='f1'}"/>
+							<TextBox Margin="0 10" Text="{Binding FadeIn,StringFormat='f1'}"/>
+							<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding FadeIn,StringFormat='f1'}"/>
+							<TextBox Margin="0 10" Text="{Binding FadeOut,StringFormat='f1'}"/>
+							<Slider Margin="0 10" Minimum="1" Maximum="20" Value="{Binding FadeOut,StringFormat='f1'}"/>
+							<TextBox Margin="0 10" Text="{Binding RepetitionFrequency}"/>
+							<Slider Margin="0 10" Minimum="0" Maximum="20" Value="{Binding RepetitionFrequency}"/>
+							<TextBlock Text=""/>
 
-						<CheckBox  Margin="0 10" IsChecked="{Binding Random}">
-							<TextBlock Margin="0 -3" Text="Random"/>
-						</CheckBox>
-						<CheckBox  Margin="0 10" IsChecked="{Binding ShowExplain}">
-							<TextBlock Margin="0 -3" Text="Show Explain"/>
-						</CheckBox>
-						<CheckBox  Margin="0 10" IsChecked="{Binding WordsDistinct}">
-							<TextBlock Margin="0 -3" Text="Words Distinct"/>
-						</CheckBox>
-					</StackPanel>
-					<StackPanel  Margin="50 0 10 0">
-						<TextBlock Margin="0 10" Text="MySql Connection String" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" Text="Rate" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" Text="Reread Rate" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" Text="Min Word Length" TextAlignment="Right"/>
-						<TextBlock Margin="0 10" TextAlignment="Right"/>
+							<CheckBox  Margin="0 10" IsChecked="{Binding Random}">
+								<TextBlock Margin="0 -3" Text="Random"/>
+							</CheckBox>
+							<CheckBox  Margin="0 10" IsChecked="{Binding ShowExplain}">
+								<TextBlock Margin="0 -3" Text="Show Explain"/>
+							</CheckBox>
+							<CheckBox  Margin="0 10" IsChecked="{Binding WordsDistinct}">
+								<TextBlock Margin="0 -3" Text="Words Distinct"/>
+							</CheckBox>
+							<CheckBox  Margin="0 10" IsChecked="{Binding ShowPhonetic}">
+								<TextBlock Margin="0 -3" Text="Show Phonetic"/>
+							</CheckBox>
+						</StackPanel>
+						<StackPanel  Margin="50 0 10 0">
+							<TextBlock Margin="0 10" Text="MySql Connection String" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" Text="Rate" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" Text="Word Click Font Size" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" Text="Reread Rate" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" Text="Min Word Length" TextAlignment="Right"/>
+							<TextBlock Margin="0 10" TextAlignment="Right"/>
 
+						</StackPanel>
+						<StackPanel  Margin="0 0 10 0" Width="150">
+							<TextBox Margin="0 10" Text="{Binding MySqlConnectionString}"/>
+							<TextBox Margin="0 10" Text="{Binding Rate}"/>
+							<Slider Margin="0 10" Minimum="-10" Maximum="10" Value="{Binding Rate}"/>
+							<TextBox Margin="0 10" Text="{Binding WordClickFontSize}"/>
+							<Slider Margin="0 10" Minimum="10" Maximum="100" Value="{Binding WordClickFontSize}"/>
+							<TextBox Margin="0 10" Text="{Binding RereadRate}"/>
+							<Slider Margin="0 10" Minimum="-10" Maximum="10" Value="{Binding RereadRate}"/>
+							<TextBox Margin="0 10" Text="{Binding MinWordLength}"/>
+							<Slider Margin="0 10" Minimum="0" Maximum="10" Value="{Binding MinWordLength}"/>
+							<CheckBox  Margin="0 10" IsChecked="{Binding AutoGetWord}">
+								<TextBlock Margin="0 -3" Text="Auto Get Word"/>
+							</CheckBox>
+							<CheckBox  Margin="0 10" IsChecked="{Binding ConnectionMysql}">
+								<TextBlock Margin="0 -3" Text="Mysql"/>
+							</CheckBox>
+							<CheckBox  Margin="0 10" IsChecked="{Binding Topmost}">
+								<TextBlock Margin="0 -3" Text="Topmost"/>
+							</CheckBox>
+						</StackPanel>
 					</StackPanel>
-					<StackPanel  Margin="0 0 10 0" Width="150">
-						<TextBox Margin="0 10" Text="{Binding MySqlConnectionString}"/>
-						<TextBox Margin="0 10" Text="{Binding Rate}"/>
-						<Slider Margin="0 10" Minimum="-10" Maximum="10" Value="{Binding Rate}"/>
-						<TextBox Margin="0 10" Text="{Binding RereadRate}"/>
-						<Slider Margin="0 10" Minimum="-10" Maximum="10" Value="{Binding RereadRate}"/>
-						<TextBox Margin="0 10" Text="{Binding MinWordLength}"/>
-						<Slider Margin="0 10" Minimum="0" Maximum="10" Value="{Binding MinWordLength}"/>
-						<CheckBox  Margin="0 10" IsChecked="{Binding AutoGetWord}">
-							<TextBlock Margin="0 -3" Text="Auto Get Word"/>
-						</CheckBox>
-						<CheckBox  Margin="0 10" IsChecked="{Binding ConnectionMysql}">
-							<TextBlock Margin="0 -3" Text="Mysql"/>
-						</CheckBox>
-						<CheckBox  Margin="0 10" IsChecked="{Binding Topmost}">
-							<TextBlock Margin="0 -3" Text="Topmost"/>
-						</CheckBox>
-					</StackPanel>
-				</StackPanel>
-			</TabItem>
-			<TabItem Header="            ">
-				<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-					
-						
-					<StackPanel  Margin="50 0 10 0">
-						<CheckBox  Margin="0 10" IsChecked="{Binding ShowPhonetic}">
-							<TextBlock Margin="0 -3" Text="Show Phonetic"/>
-						</CheckBox>
-					</StackPanel>
-					<StackPanel Width="200" >
-						<TextBlock Margin="0 10" Text="Word Click Font Size" TextAlignment="Right"/>
-					</StackPanel>
-					<StackPanel  Margin="50 0 10 0">
-					</StackPanel>
-					<StackPanel  Margin="0 0 10 0" Width="150">
-						<TextBox Margin="0 10" Text="{Binding WordClickFontSize}"/>
-						<Slider Margin="0 10" Minimum="10" Maximum="100" Value="{Binding WordClickFontSize}"/>
-					</StackPanel>
-				</StackPanel>
-			</TabItem>
-		</TabControl.Items>
-	</TabControl>
+				</ScrollViewer>
 </UserControl>

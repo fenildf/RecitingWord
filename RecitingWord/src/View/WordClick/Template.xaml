@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+					xmlns:M="clr-namespace:RecitingWord"
+					xmlns:local="clr-namespace:RecitingWord.View">
+
+	<DataTemplate  DataType="{x:Type M:WordMode}">
+		<Button BorderBrush="Transparent" x:Name="b" ToolTip="{Binding WordExplaining}" Command="{Binding Command}"
+				FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}"
+				CommandParameter="{Binding ElementName=b}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" >
+			<!--BorderBrush="{x:Null}"-->
+			<!--<i:Interaction.Triggers>
+				MouseLeftButtonUp="" MouseLeftButtonDown=""
+				<i:EventTrigger EventName="Initialized">
+					<i:InvokeCommandAction Command="{Binding ToolTipOpening}" CommandParameter="{Binding}"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>-->
+			<Button.Content>
+				<TextBlock Margin="0 5" Text="{Binding Word}"/>
+			</Button.Content>
+		</Button>
+	</DataTemplate>
+</ResourceDictionary>

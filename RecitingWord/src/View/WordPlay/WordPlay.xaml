@@ -7,7 +7,7 @@
 			 DataContext="{Binding Source={x:Static local:WordPlayViewMode.Instance}}"
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" Background="Black">
-
+	<!--xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"-->
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="MouseLeave">
 			<i:InvokeCommandAction Command="{Binding MouseLeave}"  />

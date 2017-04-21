@@ -15,10 +15,8 @@ namespace RecitingWord
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //Window1.Instance.ShowDialog();
-            //return;
-            //var result = GoogleTransApi.Instance.getTransResult("Application");
-
+            //var result = Sever.HttpGet("https://eyun.baidu.com/", "");
+            //result = GoogleTransApi.Instance.Trans("Application");
             var LoadWindow = new View.Load();
             LoadWindow.Show();
             Task.Run(()=> {

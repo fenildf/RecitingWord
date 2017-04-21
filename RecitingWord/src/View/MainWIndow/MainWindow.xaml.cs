@@ -105,7 +105,7 @@ namespace RecitingWord
                 {
 
                     if (EventnData.MouseButton == MouseButtons.Left &&
-                        EventnData.EventType   == Win32Api.MouseEventType.MouseDown)
+                        EventnData.EventType   == Win32Api.MouseEventType.MouseUp)
                     {
                         if(SettingViewMode.Instance.AutoGetWord)
                         SendKeys.SendWait("^c");

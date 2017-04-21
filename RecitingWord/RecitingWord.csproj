@@ -40,6 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -117,6 +118,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>ProgramConfig.settings</DependentUpon>
     </Compile>
+    <Compile Include="src\Test\Class1.cs" />
     <Compile Include="src\TransApi\BaiDuTransApi.cs" />
     <Compile Include="src\TransApi\BingTransApi.cs" />
     <Compile Include="src\TransApi\GoogleTransApi.cs" />
@@ -134,6 +136,7 @@
     </Compile>
     <Compile Include="src\View\Setting\SettingViewMode.cs" />
     <Compile Include="src\View\ShowWordList\ShowWordListViewMode.cs" />
+    <Compile Include="src\View\WordClick\PopupViewMode.cs" />
     <Compile Include="src\View\WordClick\WordClick.xaml.cs">
       <DependentUpon>WordClick.xaml</DependentUpon>
     </Compile>
@@ -143,10 +146,10 @@
     </Compile>
     <Compile Include="src\View\WordPlay\WordPlayViewMode.cs" />
     <Compile Include="src\Win32API.cs" />
-    <Compile Include="src\WordMode.cs" />
-    <Compile Include="Test.xaml.cs">
-      <DependentUpon>Test.xaml</DependentUpon>
+    <Compile Include="src\Test\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\WordMode.cs" />
     <Page Include="src\View\About\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -198,7 +201,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Test.xaml">
+    <Page Include="src\Test\Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

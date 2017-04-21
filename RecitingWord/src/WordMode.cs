@@ -15,19 +15,35 @@ namespace RecitingWord
         {
             this.Word = Word;
             //ToolTipOpening = new MVVM.Command();
-            this.AsynTrans();
+            //this.AsynTrans();
             Command = new MVVM.Command((sender) => 
             {
                 SettingViewMode.Instance.RereadAsync(this.Word);
                 //var button = sender as Button;
                 //if (button == null) return;
-                //Trans();
 
-                var text = new TextBlock();
-                var p = new Popup();
-                text.Text = Word;
-                p.Child = text;
-                p.IsOpen = true;
+                //var text = new TextBlock();
+                //var p = new Popup();
+                //text.Text = Word;
+                //p.Child = text;
+                //p.IsOpen = true;
+
+
+                var button = sender as Button;
+                if (button == null) return;
+
+
+                Task.Run(() => {
+
+                    Trans();
+
+                    View.PopupViewMode.Instance.PlacementTarget = button;
+                    View.PopupViewMode.Instance.IsPopup = false;
+                    View.PopupViewMode.Instance.IsPopup = true;
+                    View.PopupViewMode.Instance.Text = WordExplaining;
+                    WordPlayViewMode.Instance.Word = this;
+                });
+
             });
 
         }
@@ -167,7 +183,7 @@ namespace RecitingWord
         /// </summary>
         public void AsynTrans()
         {
-            if (string.IsNullOrWhiteSpace(WordExplaining))
+            if (string.IsNullOrWhiteSpace(WordExplaining) && !string.IsNullOrWhiteSpace(Word) && Word != ".")
             Task.Run(() => {
                 try
                 {
@@ -186,7 +202,7 @@ namespace RecitingWord
         }
         public void Trans()
         {
-            if (string.IsNullOrWhiteSpace(WordExplaining))
+            if (string.IsNullOrWhiteSpace(WordExplaining) && !string.IsNullOrWhiteSpace(Word))
             {
                 try
                 {
