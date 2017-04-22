@@ -16,39 +16,89 @@ namespace RecitingWord
             this.Word = Word;
             //ToolTipOpening = new MVVM.Command();
             //this.AsynTrans();
-            Command = new MVVM.Command((sender) => 
-            {
-                SettingViewMode.Instance.RereadAsync(this.Word);
-                //var button = sender as Button;
-                //if (button == null) return;
-
-                //var text = new TextBlock();
-                //var p = new Popup();
-                //text.Text = Word;
-                //p.Child = text;
-                //p.IsOpen = true;
-
-
-                var button = sender as Button;
-                if (button == null) return;
-
-
-                Task.Run(() => {
-
-                    Trans();
-
-                    View.PopupViewMode.Instance.PlacementTarget = button;
-                    View.PopupViewMode.Instance.IsPopup = false;
-                    View.PopupViewMode.Instance.IsPopup = true;
-                    View.PopupViewMode.Instance.Text = WordExplaining;
-                    WordPlayViewMode.Instance.Word = this;
-                });
-
-            });
-
+            Command = new MVVM.Command(WordClickHandle);
+            TouchUp = new MVVM.Command(TouchUpHandle);
+            TouchDown = new MVVM.Command(TouchDownHandle);
+            TouchMove = new MVVM.Command(TouchMoveHandle);
+            //Touch.FrameReported += Touch_FrameReported;
+            PreviewMouseLeftButtonDown = new MVVM.Command(PreviewMouseLeftButtonDownHandle);
+            PreviewMouseLeftButtonUp = new MVVM.Command(PreviewMouseLeftButtonUpHandle);
+            
         }
+
+        private void PreviewMouseLeftButtonUpHandle(object sender)
+        {
+        }
+
+        private void PreviewMouseLeftButtonDownHandle()
+        {
+        }
+
+        private void TouchMoveHandle()
+        {
+            SelectedWordList.Instance.Words.Add(Word);
+        }
+
+        private void TouchUpHandle(object sender)
+        {
+            if (SelectedWordList.Instance.Words.Count <= 1) return;
+            Task.Run(()=> {
+                var TouchWords = new StringBuilder();
+                foreach (var Item in SelectedWordList.Instance.Words)
+                {
+                    if (string.IsNullOrWhiteSpace(Item)) continue;
+
+                    TouchWords.AppendFormat($"{Item} ");
+                }
+                
+                SelectedWordList.Instance.Words.Clear();
+                var result = GoogleTransApi.Instance.getSentenceTransResult(TouchWords.ToString());
+                View.PopupViewMode.Instance.PlacementTarget = sender as Button;
+                View.PopupViewMode.Instance.IsPopup = false;
+                View.PopupViewMode.Instance.IsPopup = true;
+                if (result.defs.Count > 0)
+                {
+                    View.PopupViewMode.Instance.Text = string.Join("\r\n", (from item in result.defs select item.def).ToArray());
+                }
+                else
+                {
+                    View.PopupViewMode.Instance.Text = "翻译失败";
+                }
+            });
+        }
+
+        private void TouchDownHandle(object sender)
+        {
+        }
+
+        private void WordClickHandle(object sender)
+        {
+            if (SelectedWordList.Instance.Words.Count >= 2) return;
+            SettingViewMode.Instance.RereadAsync(this.Word);
+
+
+            Task.Run(() =>
+            {
+                Trans();
+
+                View.PopupViewMode.Instance.PlacementTarget = sender as Button;
+                View.PopupViewMode.Instance.IsPopup = false;
+                View.PopupViewMode.Instance.IsPopup = true;
+                View.PopupViewMode.Instance.Text = WordExplaining;
+                WordPlayViewMode.Instance.Word = this;
+            });
+        }
+
         public ICommand Command { get; set; }
         public ICommand ToolTipOpening { get; set; }
+        public ICommand TouchUp { get; set; }
+        public ICommand TouchDown { get; set; }
+        public ICommand TouchMove { get; set; }
+        public ICommand PreviewMouseLeftButtonDown { get; set; }
+        public ICommand PreviewMouseLeftButtonUp { get; set; }
+
+
+        #region 折叠
         private string _Word;
         /// <summary>
         /// 单词
@@ -184,21 +234,22 @@ namespace RecitingWord
         public void AsynTrans()
         {
             if (string.IsNullOrWhiteSpace(WordExplaining) && !string.IsNullOrWhiteSpace(Word) && Word != ".")
-            Task.Run(() => {
-                try
+                Task.Run(() =>
                 {
-                    //var TransResult = BingTransApi.getTransResult(Word);
-                    var TransResult = GoogleTransApi.Instance.getTransResult(Word);
-                    this.AmE = TransResult.AmE;
-                    this.BrE = TransResult.BrE;
-                    this.defs = TransResult.defs;
-                    this.WordExplaining = string.Join("\r\n", defs);
-                }
-                catch (Exception)
-                {
-                    
-                }
-            });
+                    try
+                    {
+                        //var TransResult = BingTransApi.getTransResult(Word);
+                        var TransResult = GoogleTransApi.Instance.getTransResult(Word);
+                        this.AmE = TransResult.AmE;
+                        this.BrE = TransResult.BrE;
+                        this.defs = TransResult.defs;
+                        this.WordExplaining = string.Join("\r\n", defs);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                });
         }
         public void Trans()
         {
@@ -218,6 +269,35 @@ namespace RecitingWord
 
                 }
             }
+        } 
+        #endregion
+    }
+
+    class SelectedWordList
+    {
+        static SelectedWordList _Instance = new SelectedWordList();
+        public static SelectedWordList Instance
+        {
+            get
+            {
+                return _Instance;
+            }
+
         }
+        private SelectedWordList()
+        {
+            Words = new HashSet<string>();
+        }
+        public HashSet<string> Words { get; set; }
     }
 }
+#region MyRegion
+//var button = sender as Button;
+//if (button == null) return;
+
+//var text = new TextBlock();
+//var p = new Popup();
+//text.Text = Word;
+//p.Child = text;
+//p.IsOpen = true; 
+#endregion

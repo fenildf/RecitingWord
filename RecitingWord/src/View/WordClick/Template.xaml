@@ -1,23 +1,47 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+					xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 					xmlns:M="clr-namespace:RecitingWord"
 					xmlns:local="clr-namespace:RecitingWord.View">
 
 	<DataTemplate  DataType="{x:Type M:WordMode}">
-		<Button BorderBrush="Transparent" x:Name="b" ToolTip="{Binding WordExplaining}" Command="{Binding Command}"
-				FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}"
-				CommandParameter="{Binding ElementName=b}" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" >
+		<Button  x:Name="b" ToolTip="{Binding WordExplaining}" 
+			Command="{Binding Command}" CommandParameter="{Binding ElementName=b}"
+			BorderBrush="Transparent" Focusable="True"  
+			FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}" 
+			HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" >
+			
+			
 			<!--BorderBrush="{x:Null}"-->
-			<!--<i:Interaction.Triggers>
-				MouseLeftButtonUp="" MouseLeftButtonDown=""
-				<i:EventTrigger EventName="Initialized">
-					<i:InvokeCommandAction Command="{Binding ToolTipOpening}" CommandParameter="{Binding}"/>
-				</i:EventTrigger>
-			</i:Interaction.Triggers>-->
+			<!--MouseLeftButtonUp="" MouseLeftButtonDown=""-->
+			<!--TouchMove="{Binding MouseLeftButtonDown}" TouchUp="{Binding MouseLeftButtonDown}"-->
+			<!--<Button.InputBindings>
+				<MouseBinding MouseAction="LeftClick" Command="{Binding }"/>
+				<MouseBinding MouseAction="LeftClick"/>
+			</Button.InputBindings>-->
+			
 			<Button.Content>
 				<TextBlock Margin="0 5" Text="{Binding Word}"/>
 			</Button.Content>
+
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="TouchUp">
+					<i:InvokeCommandAction Command="{Binding TouchUp}" CommandParameter="{Binding  ElementName=b}"/>
+				</i:EventTrigger>
+				<i:EventTrigger EventName="TouchDown">
+					<i:InvokeCommandAction Command="{Binding TouchDown}" CommandParameter="{Binding  ElementName=b}"/>
+				</i:EventTrigger>
+				<i:EventTrigger EventName="TouchMove">
+					<i:InvokeCommandAction Command="{Binding TouchMove}" CommandParameter="{Binding  ElementName=b}"/>
+				</i:EventTrigger>
+				<i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+					<i:InvokeCommandAction Command="{Binding PreviewMouseLeftButtonDown}" CommandParameter="{Binding  ElementName=b}"/>
+				</i:EventTrigger>
+				<i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+					<i:InvokeCommandAction Command="{Binding PreviewMouseLeftButtonUp}" CommandParameter="{Binding  ElementName=b}"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
 		</Button>
 	</DataTemplate>
 </ResourceDictionary>

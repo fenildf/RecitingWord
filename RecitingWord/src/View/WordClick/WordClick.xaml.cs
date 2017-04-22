@@ -24,5 +24,10 @@ namespace RecitingWord.View
         {
             InitializeComponent();
         }
+
+        private void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace RecitingWord
             }
             catch (Exception ex)
             {
-                //Console.WriteLine($"读取数据库失败：{Word}：{ex.Message}");
+                Console.WriteLine($"读取数据库失败：{Word}：{ex.Message}");
                 ErrorRecords(Word, nameof(getDataBaseTransResult) + ex.Message);
                 return null;
             }
@@ -87,11 +87,12 @@ namespace RecitingWord
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine($"导入数据库失败：{bt.Word}：{ex.Message}");
+                    Console.WriteLine($"导入数据库失败：{bt.Word}：{ex.Message}");
                     ErrorRecords(bt.Word, nameof(TransResultToDataBase) + ex.Message);
                 }
             }
         }
+
         public static void ErrorRecords(string word, string messag)
         {
             try
@@ -159,7 +160,13 @@ namespace RecitingWord
 
     public class defs
     {
+        /// <summary>
+        /// 翻译结果
+        /// </summary>
         public string def;
+        /// <summary>
+        /// 音标
+        /// </summary>
         public string pos;
         public override string ToString()
         {
