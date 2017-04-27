@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -15,12 +16,16 @@ namespace RecitingWord
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            NORMAN.NRM411S7.CommandLineDebug.Instance.ToString();
             var LoadWindow = new View.Load();
             LoadWindow.Show();
             Task.Run(()=> {
                 try
                 {
                     Mysql.dbConnectInit("", "");//数据库初始化
+
+                    Thread.Sleep(5000);
+                    MainWindowViewMode.Instance.Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 }
                 catch (Exception ex)
                 {

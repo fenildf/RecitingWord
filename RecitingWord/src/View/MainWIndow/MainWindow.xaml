@@ -10,7 +10,7 @@
 		Topmost="{Binding Source={x:Static local:SettingViewMode.Instance},Path=Topmost}"
 		Focusable="True"   WindowStartupLocation = "CenterScreen"  x:Name="Window"
 		InputMethod.IsInputMethodEnabled="False"
-        Title="本程序不兼容Bing词典或类似软件 请关闭它们  designer by ljt qq123972966" Height="600" Width="1280" FontSize="25">
+        Title="{Binding Title}" Height="600" Width="1280" FontSize="25">
 	<!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">

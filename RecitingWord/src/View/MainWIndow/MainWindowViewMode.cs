@@ -21,7 +21,7 @@ namespace RecitingWord
             Numer0 = new MVVM.Command(Numer0Handle);
             PageDown = new MVVM.Command(PageDownHandle);
             A = new MVVM.Command(AHandle);
-            
+            Title = "本程序不兼容Bing词典或类似软件 请关闭它们  designer by ljt qq123972966";
             Up = new MVVM.Command(() =>
             {
                 try
@@ -230,6 +230,15 @@ namespace RecitingWord
             get { return _A; }
             set { SetProperty(ref _A, value, nameof(A)); }
         }
+
+        private string _Title;
+        public string Title
+        {
+            get { return _Title; }
+            set { SetProperty(ref _Title, value, nameof(Title)); }
+        }
+
+
     }
 
 

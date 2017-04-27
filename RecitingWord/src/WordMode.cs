@@ -69,11 +69,13 @@ namespace RecitingWord
 
         private void TouchDownHandle(object sender)
         {
+            SelectedWordList.Instance.Words.Clear();
         }
 
         private void WordClickHandle(object sender)
         {
-            if (SelectedWordList.Instance.Words.Count >= 2) return;
+            if (SelectedWordList.Instance.Words.Count > 1) return;
+            SelectedWordList.Instance.Words.Clear();
             SettingViewMode.Instance.RereadAsync(this.Word);
 
 

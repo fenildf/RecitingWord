@@ -124,6 +124,8 @@
     <Compile Include="src\TransApi\BingTransApi.cs" />
     <Compile Include="src\TransApi\GoogleTransApi.cs" />
     <Compile Include="src\TransApi\JavaScriptHandle.cs" />
+    <Compile Include="src\Utils\CommandLineDebug.cs" />
+    <Compile Include="src\Utils\WinApi.cs" />
     <Compile Include="src\View\About\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -262,6 +264,9 @@
     <Content Include="src\TransApi\HTMLPage.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>BuildVersion "$(ProjectDir)Properties\AssemblyInfo.cs"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
