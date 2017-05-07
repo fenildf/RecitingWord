@@ -21,7 +21,7 @@ namespace RecitingWord
             Numer0 = new MVVM.Command(Numer0Handle);
             PageDown = new MVVM.Command(PageDownHandle);
             A = new MVVM.Command(AHandle);
-            Title = "本程序不兼容Bing词典或类似软件 请关闭它们  designer by ljt qq123972966";
+            Title = "本程序不兼容Bing词典或类似软件 请关闭它们  designer by zjr qq807885535";
             Up = new MVVM.Command(() =>
             {
                 try

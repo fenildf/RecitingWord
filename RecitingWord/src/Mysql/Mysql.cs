@@ -16,12 +16,11 @@ namespace RecitingWord
         public static bool dbConnectInit(string serverName, string portName)
         {
             IsHaveDatabase = false;
-            connectStr = "server=127.0.0.1;port=3306;user id=root;password=normanbzhroot;database=dictionary;charset=utf8";//ProgramConfig.Default.MySqlConnectionString;
+            connectStr = SettingViewMode.Instance.MySqlConnectionString;
             mySqlConnection = new MySqlConnection(connectStr);
             Console.WriteLine(connectStr);
             mySqlConnection.Open();
-            IsHaveDatabase = true;
-            return true;
+            return IsHaveDatabase = mySqlConnection.State == ConnectionState.Open; 
         }
 
         public static int Insert(string sql, MySqlParameter[] param)

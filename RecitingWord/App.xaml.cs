@@ -19,6 +19,7 @@ namespace RecitingWord
             NORMAN.NRM411S7.CommandLineDebug.Instance.ToString();
             var LoadWindow = new View.Load();
             LoadWindow.Show();
+            SettingViewMode.Instance.MySqlConnectionString.ToString();
             Task.Run(()=> {
                 try
                 {
