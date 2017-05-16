@@ -23,15 +23,28 @@ namespace RecitingWord
             //Touch.FrameReported += Touch_FrameReported;
             PreviewMouseLeftButtonDown = new MVVM.Command(PreviewMouseLeftButtonDownHandle);
             PreviewMouseLeftButtonUp = new MVVM.Command(PreviewMouseLeftButtonUpHandle);
-            
+
+            //MouseMove = new MVVM.Command(MouseMoveHandle);
+        }
+
+        private void MouseMoveHandle(object sender)
+        {
+            if(IsDown)
+            SelectedWordList.Instance.Words.Add(Word);
+            Console.WriteLine("MouseMove");
         }
 
         private void PreviewMouseLeftButtonUpHandle(object sender)
         {
+            //IsDown = false;
+            //TouchUpHandle(sender);
+            //Console.WriteLine("Up");
         }
-
+        public bool IsDown { get; set; }
         private void PreviewMouseLeftButtonDownHandle()
         {
+            //IsDown = true;
+            //Console.WriteLine("Down");
         }
 
         private void TouchMoveHandle()
@@ -53,7 +66,7 @@ namespace RecitingWord
                 
                 SelectedWordList.Instance.Words.Clear();
                 var result = GoogleTransApi.Instance.getSentenceTransResult(TouchWords.ToString());
-                View.PopupViewMode.Instance.PlacementTarget = sender as Button;
+                View.PopupViewMode.Instance.PlacementTarget = sender;
                 View.PopupViewMode.Instance.IsPopup = false;
                 View.PopupViewMode.Instance.IsPopup = true;
                 if (result.defs.Count > 0)
@@ -69,7 +82,7 @@ namespace RecitingWord
 
         private void TouchDownHandle(object sender)
         {
-            SelectedWordList.Instance.Words.Clear();
+            //SelectedWordList.Instance.Words.Clear();
         }
 
         private void WordClickHandle(object sender)
@@ -98,8 +111,9 @@ namespace RecitingWord
         public ICommand TouchMove { get; set; }
         public ICommand PreviewMouseLeftButtonDown { get; set; }
         public ICommand PreviewMouseLeftButtonUp { get; set; }
+        public ICommand MouseMove { get; set; }
 
-
+        
         #region 折叠
         private string _Word;
         /// <summary>

@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RecitingWord.View" Background="White"
              xmlns:M="clr-namespace:RecitingWord"
-			 
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 DataContext="{Binding Source={x:Static local:WordClickViewMode.Instance}}"
 			 x:Name="Control" 
@@ -15,7 +14,9 @@
 
 		<!--PanningMode ="Both" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback"-->
 		<ScrollViewer VerticalScrollBarVisibility="Auto"  ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
-			<ItemsControl ItemsSource="{Binding Words}" >
+			<ItemsControl ItemsSource="{Binding Words}" 
+						  Foreground="{StaticResource MainForeground}" 
+						  Background="{StaticResource MainBackground}" >
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<WrapPanel/>
@@ -24,7 +25,7 @@
 			</ItemsControl>
 		</ScrollViewer>
 		<Popup DataContext="{Binding Source={x:Static local:PopupViewMode.Instance}}"  
-			   Placement ="RelativePoint" HorizontalOffset="0" VerticalOffset="0"
+			   Placement ="RelativePoint" HorizontalOffset="0" VerticalOffset="-100"
 			   AllowsTransparency = "True"  PopupAnimation ="Slide" 
 			   StaysOpen="True" IsOpen="{Binding IsPopup}" 
 			   PlacementTarget="{Binding PlacementTarget}">

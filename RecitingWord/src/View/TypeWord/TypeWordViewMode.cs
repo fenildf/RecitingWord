@@ -40,10 +40,18 @@ namespace RecitingWord
                 SettingViewMode.Instance.BackIndex = 0;
                 SettingViewMode.Instance.WordIndex = 0;
                 SettingViewMode.Instance.WordsRecords.Clear();
-                
             }
         }
 
+        public void SetWords(string Text)
+        {
+            TypeWord = ParseStringToWords(Text);
+            ProgramConfig.Default.WordHistory = Text;
+            ProgramConfig.Default.Save();
+            SettingViewMode.Instance.BackIndex = 0;
+            SettingViewMode.Instance.WordIndex = 0;
+            SettingViewMode.Instance.WordsRecords.Clear();
+        }
 
         public Regex MatchWord = new Regex(@"(([A-Za-z]|[a-z])+)|([\S])|([\s])+", RegexOptions.Compiled);
         List<WordMode> ParseStringToWords(string Word)

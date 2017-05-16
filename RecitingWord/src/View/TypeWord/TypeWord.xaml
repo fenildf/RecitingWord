@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RecitingWord"
-					xmlns:M="clr-namespace:RecitingWord"
+			 xmlns:M="clr-namespace:RecitingWord"
              mc:Ignorable="d" x:Name="TypeWordControl"
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 			 DataContext="{Binding Source={x:Static local:TypeWordViewMode.Instance}}"
+			 Background="{StaticResource MainSelectedBackground}" 
+			 Foreground="{StaticResource MainForeground}" 
              d:DesignHeight="300" d:DesignWidth="300">
 	
 	<i:Interaction.Triggers>
@@ -17,6 +19,12 @@
 	</i:Interaction.Triggers>
 
 	<Grid>
-		<TextBox x:Name="TypeWordsTextBox" Text="{Binding TypeWords}" FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}" TextWrapping="Wrap" AcceptsReturn ="True"/>
+		<TextBox x:Name="TypeWordsTextBox" 
+				 TextWrapping="Wrap" 
+				 AcceptsReturn ="True"
+				 Text="{Binding TypeWords}" 
+				 Foreground="{StaticResource MainForeground}" 
+				 Background="{StaticResource MainBackground}" 
+				 FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}"/>
 	</Grid>
 </UserControl>

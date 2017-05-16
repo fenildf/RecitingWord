@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecitingWord.View;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -140,7 +141,8 @@ namespace RecitingWord
                     {
                         firstMatchWord = TypeWordViewMode.Instance.MatchWord.Match(Word);
                         if (!string.IsNullOrWhiteSpace(firstMatchWord.Value))
-                         SettingViewMode.Instance.Read(firstMatchWord.Value);
+                        SettingViewMode.Instance.Read(firstMatchWord.Value);
+                        TypeWordViewMode.Instance.SetWords(Word);
                     }
                 }
                 catch (Exception ex)

@@ -4,11 +4,16 @@
 					xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 					xmlns:M="clr-namespace:RecitingWord"
 					xmlns:local="clr-namespace:RecitingWord.View">
-
+	
+	<SolidColorBrush x:Key="MainBackground" Color="Black"/>
+	<SolidColorBrush x:Key="MainForeground" Color="White"/>
+	<SolidColorBrush x:Key="MainSelectedBackground" Color="#FF0A0A0A"/>
+	
 	<DataTemplate  DataType="{x:Type M:WordMode}">
-		<Button  x:Name="b" ToolTip="{Binding WordExplaining}" 
+		<Button  x:Name="b" ToolTip="{Binding WordExplaining}"
 			Command="{Binding Command}" CommandParameter="{Binding ElementName=b}"
-			BorderBrush="Transparent" Focusable="True"  
+			BorderBrush="Transparent" Focusable="True" 
+			Foreground="{StaticResource MainForeground}"
 			FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}" 
 			HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" >
 			
@@ -22,7 +27,7 @@
 			</Button.InputBindings>-->
 			
 			<Button.Content>
-				<TextBlock Margin="0 5" Text="{Binding Word}"/>
+				<TextBlock Margin="0 5" Text="{Binding Word}" Background="{x:Null}" />
 			</Button.Content>
 
 			<i:Interaction.Triggers>
@@ -41,7 +46,77 @@
 				<i:EventTrigger EventName="PreviewMouseLeftButtonUp">
 					<i:InvokeCommandAction Command="{Binding PreviewMouseLeftButtonUp}" CommandParameter="{Binding  ElementName=b}"/>
 				</i:EventTrigger>
+				<!--<i:EventTrigger EventName="MouseMove">
+					<i:InvokeCommandAction Command="{Binding MouseMove}" CommandParameter="{Binding  ElementName=b}"/>
+				</i:EventTrigger>-->
 			</i:Interaction.Triggers>
 		</Button>
 	</DataTemplate>
+
+	<Style TargetType="TabItem">
+		<Style.Triggers>
+			<Trigger Property="TabItem.IsSelected" Value="True">
+				<Setter Property="TabItem.Template" >
+					<Setter.Value>
+						<ControlTemplate>
+							<TextBlock TextAlignment="Center" 
+									   Background="{StaticResource MainSelectedBackground}" 
+									   Foreground="{StaticResource MainForeground}" 
+									   Text="{TemplateBinding HeaderedContentControl.Header}"/>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+			<Trigger Property="TabItem.IsSelected" Value="False">
+				<Setter Property="TabItem.Template" >
+					<Setter.Value>
+						<ControlTemplate>
+							<TextBlock	TextAlignment="Center"
+										Background="{StaticResource MainBackground}"
+										Foreground="{StaticResource MainForeground}" 
+										Text="{TemplateBinding HeaderedContentControl.Header}" />
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+
+	<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="DataGrid" BasedOn="{StaticResource {x:Type DataGrid}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="DataGridTextColumn" BasedOn="{StaticResource {x:Type DataGridTextColumn}}">
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+	</Style>
+	<Style TargetType="DataGridRowHeader" BasedOn="{StaticResource {x:Type DataGridRowHeader}}">
+		<Setter Property="Foreground" Value="{StaticResource MainForeground}"/>
+		<Setter Property="Background" Value="{StaticResource MainBackground}"/>
+	</Style>
+	
 </ResourceDictionary>

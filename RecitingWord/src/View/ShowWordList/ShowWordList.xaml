@@ -20,7 +20,10 @@
 	</UserControl.Resources>
 		
     <Grid>
-		<DataGrid ItemsSource="{Binding Words}" 
+		<DataGrid 
+				  Background="{StaticResource MainBackground}"
+				  Foreground="{StaticResource MainForeground}"
+				  ItemsSource="{Binding Words}" 
 				  SelectedIndex="{Binding SelectIndex}"
 				  ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}" 
 				  AutoGenerateColumns="False" HorizontalAlignment="Center">
@@ -30,7 +33,6 @@
 				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="ShowCount" Binding="{Binding ShowCount}" Width="*" FontSize="18" />
 				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="Frequency" Binding="{Binding Frequency}" Width="*" FontSize="18" />
 				<DataGridTextColumn  ElementStyle="{StaticResource contentCenterStyle}"  Header="IsOk" Binding="{Binding IsOk}" Width="*" FontSize="18"/>
-				
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

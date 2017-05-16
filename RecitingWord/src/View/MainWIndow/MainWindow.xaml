@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RecitingWord" mc:Ignorable="d"
-        xmlns:V="clr-namespace:RecitingWord.View"
+        xmlns:V="clr-namespace:RecitingWord.View" 
+		Background="{StaticResource MainBackground}"
+		Foreground="{StaticResource MainForeground}"
 		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         DataContext="{Binding Source={x:Static local:MainWindowViewMode.Instance}}"
 		Topmost="{Binding Source={x:Static local:SettingViewMode.Instance},Path=Topmost}"
@@ -38,25 +40,25 @@
 		<MouseBinding Command="{Binding WheelClick}" MouseAction="WheelClick" Gesture=""/>
 	</Window.InputBindings>
 	<Grid>
-		<TabControl Focusable="False">
+		<TabControl Focusable="False" Background="{StaticResource MainBackground}" Foreground="{StaticResource MainForeground}">
 			<TabControl.Items>
-				<TabItem Header="Word Play" Width="200" Height="40" >
+				<TabItem Header="Word Play" Width="200" Height="40">
 					<local:WordPlay Focusable="True"/>
 				</TabItem>
-				<TabItem Header="Word Click" Width="200" Height="40" >
-					<V:WordClick Focusable="True"/>
+				<TabItem Header="Word Click" Width="200" Height="40"  >
+					<V:WordClick Focusable="True" Background="{StaticResource MainBackground}" Foreground="{StaticResource MainForeground}"/>
 				</TabItem>
 				<TabItem Header="Type Word" Width="200" Height="40" >
-					<local:TypeWord/>
+					<local:TypeWord Background="{StaticResource MainBackground}" Foreground="{StaticResource MainForeground}"/>
 				</TabItem>
 				<TabItem Header="Word List" Width="200" Height="40" >
-					<local:ShowWordList/>
+					<local:ShowWordList Background="{StaticResource MainBackground}" Foreground="{StaticResource MainForeground}"/>
 				</TabItem>
 				<TabItem Header="Setting" Width="200" Height="40" >
-					<local:Setting/>
+					<local:Setting Background="{StaticResource MainBackground}" Foreground="{StaticResource MainForeground}"/>
 				</TabItem>
 				<TabItem Header="About" Width="200" Height="40" >
-					<local:About/>
+					<local:About Background="{StaticResource MainBackground}" Foreground="{StaticResource MainForeground}"/>
 				</TabItem>
 			</TabControl.Items>
 		</TabControl>

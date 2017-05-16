@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" FontSize="30" WindowStyle="None"  AllowsTransparency ="True"
         xmlns:V="clr-namespace:RecitingWord.View"
-
+		x:Name="Window"
 		WindowStartupLocation ="CenterScreen" Foreground ="Black"
 		DataContext="{Binding Source={x:Static V:LoadViewMode.Instance}}"
         Title="Load" Height="199.743" Width="465.81">
@@ -13,6 +13,6 @@
 		<SolidColorBrush Opacity="0.5" Color="White"/>
 	</Window.Background>
 	<StackPanel VerticalAlignment="Center">
-		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground ="Black" Text="{Binding Title}" />
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Background="{x:Null}" Text="{Binding Title}" />
 	</StackPanel>
 </Window>
