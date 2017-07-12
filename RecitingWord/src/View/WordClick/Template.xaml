@@ -3,11 +3,22 @@
 					xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 					xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 					xmlns:M="clr-namespace:RecitingWord"
+					
 					xmlns:local="clr-namespace:RecitingWord.View">
 	
 	<SolidColorBrush x:Key="MainBackground" Color="Black"/>
 	<SolidColorBrush x:Key="MainForeground" Color="White"/>
 	<SolidColorBrush x:Key="MainSelectedBackground" Color="#FF0A0A0A"/>
+
+	<DataTemplate DataType="{x:Type local:Passage}">
+		<ItemsControl ItemsSource="{Binding Words}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+		</ItemsControl>
+	</DataTemplate>
 	
 	<DataTemplate  DataType="{x:Type M:WordMode}">
 		<Button  x:Name="b" ToolTip="{Binding WordExplaining}"

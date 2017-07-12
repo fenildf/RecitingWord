@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace RecitingWord
 {
-   public class WordMode:MVVM.ViewModeBase
+    public class WordMode:MVVM.ViewModeBase
     {
         public WordMode(string Word)
         {
@@ -287,7 +287,7 @@ namespace RecitingWord
 
                 }
             }
-        } 
+        }
         #endregion
     }
 

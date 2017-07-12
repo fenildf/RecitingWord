@@ -18,7 +18,8 @@
 						  Background="{StaticResource MainBackground}" >
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel/>
+						<StackPanel/>
+						<!--<WrapPanel/>-->
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
@@ -32,7 +33,6 @@
 					   Foreground="Black"
 					   FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}"  />
 		</Popup>
-		
 	</Grid>
 	<UserControl.InputBindings>
 		<MouseBinding Command = "{Binding PopupClose}" MouseAction="LeftClick"/>

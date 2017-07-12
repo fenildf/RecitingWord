@@ -14,7 +14,7 @@ namespace RecitingWord.View
         public static WordClickViewMode Instance { get; } = new WordClickViewMode();
         WordClickViewMode()
         {
-            Words = new ObservableCollection<WordMode>();
+            Words = new ObservableCollection<Passage>();
             PopupClose = new MVVM.Command(() => { PopupViewMode.Instance.IsPopup = false; });
             Loaded = new MVVM.Command((sender) => 
             {
@@ -36,14 +36,27 @@ namespace RecitingWord.View
             PopupViewMode.Instance.IsPopup = false;
         }
 
-        public ObservableCollection<WordMode> Words{ get; set; }
+        public ObservableCollection<Passage> Words{ get; set; }
         public void AddWrods(IEnumerable<WordMode> words)
         {
             Words.Clear();
 
+            var passage = new Passage();
             foreach (var item in words)
             {
-                Words.Add(item);
+                if (item.Word != "\r\n")
+                {
+                    passage.Words.Add(item);
+                }
+                else
+                {
+                    Words.Add(passage);
+                    passage = new Passage();
+                }
+            }
+            if (passage.Words.Count > 0)
+            {
+                Words.Add(passage);
             }
         }
         void WordClick(object sender)

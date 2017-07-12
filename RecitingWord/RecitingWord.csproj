@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="src\View\Setting\SettingViewMode.cs" />
     <Compile Include="src\View\ShowWordList\ShowWordListViewMode.cs" />
+    <Compile Include="src\View\WordClick\Passage.cs" />
     <Compile Include="src\View\WordClick\PopupViewMode.cs" />
     <Compile Include="src\View\WordClick\WordClick.xaml.cs">
       <DependentUpon>WordClick.xaml</DependentUpon>

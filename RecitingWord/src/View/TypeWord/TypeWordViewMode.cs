@@ -53,7 +53,7 @@ namespace RecitingWord
             SettingViewMode.Instance.WordsRecords.Clear();
         }
 
-        public Regex MatchWord = new Regex(@"(([A-Za-z]|[a-z])+)|([\S])|([\s])+", RegexOptions.Compiled);
+        public Regex MatchWord = new Regex(@"(([A-Za-z]|[a-z]|['])+)|([^\r\n\s])|(\r\n)|( )", RegexOptions.Compiled);
         List<WordMode> ParseStringToWords(string Word)
         {
             var Words = ParseString(Word);
