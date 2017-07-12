@@ -113,6 +113,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ExtendMethod.cs" />
+    <Compile Include="src\Model\GlobalWords.cs" />
     <Compile Include="src\Mysql\Mysql.cs" />
     <Compile Include="src\ProgramConfig.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -27,24 +27,25 @@ namespace RecitingWord
             //MouseMove = new MVVM.Command(MouseMoveHandle);
         }
 
-        private void MouseMoveHandle(object sender)
-        {
-            if(IsDown)
-            SelectedWordList.Instance.Words.Add(Word);
-            Console.WriteLine("MouseMove");
-        }
-
+        public bool MultiSelectModel { get; set; } = false;
         private void PreviewMouseLeftButtonUpHandle(object sender)
         {
-            //IsDown = false;
-            //TouchUpHandle(sender);
-            //Console.WriteLine("Up");
+
         }
-        public bool IsDown { get; set; }
         private void PreviewMouseLeftButtonDownHandle()
         {
-            //IsDown = true;
-            //Console.WriteLine("Down");
+            if (MultiSelectModel = Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                SelectedWordList.Instance.Words.Add(Word);
+            }
+            else
+            {
+                if (MultiSelectModel = SelectedWordList.Instance.Words.Count > 0)
+                {
+                    SelectedWordList.Instance.Words.Add(Word);
+                    TouchUpHandle(this);
+                }
+            }
         }
 
         private void TouchMoveHandle()
@@ -63,7 +64,7 @@ namespace RecitingWord
 
                     TouchWords.AppendFormat($"{Item} ");
                 }
-                
+                SettingViewMode.Instance.RereadAsync(TouchWords.ToString());
                 SelectedWordList.Instance.Words.Clear();
                 var result = GoogleTransApi.Instance.getSentenceTransResult(TouchWords.ToString());
                 View.PopupViewMode.Instance.PlacementTarget = sender;
@@ -77,6 +78,7 @@ namespace RecitingWord
                 {
                     View.PopupViewMode.Instance.Text = "翻译失败";
                 }
+                MultiSelectModel = false;
             });
         }
 
@@ -87,7 +89,7 @@ namespace RecitingWord
 
         private void WordClickHandle(object sender)
         {
-            if (SelectedWordList.Instance.Words.Count > 1) return;
+            if (SelectedWordList.Instance.Words.Count > 1 || MultiSelectModel) return;
             SelectedWordList.Instance.Words.Clear();
             SettingViewMode.Instance.RereadAsync(this.Word);
 
@@ -99,7 +101,7 @@ namespace RecitingWord
                 View.PopupViewMode.Instance.PlacementTarget = sender as Button;
                 View.PopupViewMode.Instance.IsPopup = false;
                 View.PopupViewMode.Instance.IsPopup = true;
-                View.PopupViewMode.Instance.Text = WordExplaining;
+                View.PopupViewMode.Instance.Text = WordExplaining + $"\r\n{AmE}\t{BrE}";
                 WordPlayViewMode.Instance.Word = this;
             });
         }
@@ -254,8 +256,8 @@ namespace RecitingWord
                 {
                     try
                     {
-                        //var TransResult = BingTransApi.getTransResult(Word);
-                        var TransResult = GoogleTransApi.Instance.getTransResult(Word);
+                        var TransResult = BingTransApi.getTransResult(Word);
+                        //var TransResult = GoogleTransApi.Instance.getTransResult(Word);
                         this.AmE = TransResult.AmE;
                         this.BrE = TransResult.BrE;
                         this.defs = TransResult.defs;
@@ -273,8 +275,8 @@ namespace RecitingWord
             {
                 try
                 {
-                    //var TransResult = BingTransApi.getTransResult(Word);
-                    var TransResult = GoogleTransApi.Instance.getTransResult(Word);
+                    var TransResult = BingTransApi.getTransResult(Word);
+                    //var TransResult = GoogleTransApi.Instance.getTransResult(Word);
                     this.AmE = TransResult.AmE;
                     this.BrE = TransResult.BrE;
                     this.defs = TransResult.defs;

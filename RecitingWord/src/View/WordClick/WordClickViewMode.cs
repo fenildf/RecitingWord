@@ -22,7 +22,13 @@ namespace RecitingWord.View
                 if (Control == null) return;
                 Control.PreviewMouseDown += Control_PreviewMouseDown;
             });
-            
+
+            LeftDoubleClick = new MVVM.Command(LeftDoubleClickHandle);
+        }
+
+        private void LeftDoubleClickHandle()
+        {
+            SettingViewMode.Instance.RereadAsync(GlobalWords.Instance.Words);
         }
 
         private void Control_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -60,13 +66,13 @@ namespace RecitingWord.View
             get { return _Loaded; }
             set { SetProperty(ref _Loaded, value, nameof(Loaded)); }
         }
+        private ICommand _LeftDoubleClick;
+        public ICommand LeftDoubleClick
+        {
+            get { return _LeftDoubleClick; }
+            set { SetProperty(ref _LeftDoubleClick, value, nameof(LeftDoubleClick)); }
+        }
 
 
     }
-    //public class WordViewMode : WordMode
-    //{
-    //    public WordViewMode(WordMode Word):base(Word.Word)
-    //    {
-    //    }
-    //}
 }

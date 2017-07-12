@@ -611,6 +611,7 @@ namespace RecitingWord
         }
         public void RereadAsync(string word)
         {
+            GlobalWords.Instance.Words = word;
             synth.Rate = RereadRate;
             if (synth.State == SynthesizerState.Ready)
                 synth?.SpeakAsync(word);

@@ -42,7 +42,7 @@ namespace RecitingWord
         {
             Handle = new WindowInteropHelper(this).Handle;
             Handle = SetClipboardViewer(Handle);
-            SetHook();
+            //SetHook();
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
