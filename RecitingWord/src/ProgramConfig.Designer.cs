@@ -12,7 +12,7 @@ namespace RecitingWord {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
     internal sealed partial class ProgramConfig : global::System.Configuration.ApplicationSettingsBase {
         
         private static ProgramConfig defaultInstance = ((ProgramConfig)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ProgramConfig())));
@@ -73,7 +73,7 @@ namespace RecitingWord {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowExplain {
             get {
                 return ((bool)(this["ShowExplain"]));
@@ -157,7 +157,7 @@ namespace RecitingWord {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Host=127.0.0.1;UserName=root;Password=normanbzhroot;Database=dictionary;")]
         public string MySqlConnectionString {
             get {
                 return ((string)(this["MySqlConnectionString"]));
@@ -193,7 +193,7 @@ namespace RecitingWord {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowPhonetic {
             get {
                 return ((bool)(this["ShowPhonetic"]));

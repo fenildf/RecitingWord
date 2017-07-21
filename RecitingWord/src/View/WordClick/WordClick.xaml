@@ -25,8 +25,8 @@
 			</ItemsControl>
 		</ScrollViewer>
 		<Popup DataContext="{Binding Source={x:Static local:PopupViewMode.Instance}}"  
-			   Placement ="RelativePoint" HorizontalOffset="0" VerticalOffset="-100"
-			   AllowsTransparency = "True"  PopupAnimation ="Slide" 
+			   Placement ="Top" HorizontalOffset="0" VerticalOffset="0"
+			   AllowsTransparency = "True"  PopupAnimation ="Slide"
 			   StaysOpen="True" IsOpen="{Binding IsPopup}" 
 			   PlacementTarget="{Binding PlacementTarget}">
 			<TextBlock Text="{Binding Text}" TextWrapping="Wrap"  Background="Green" 

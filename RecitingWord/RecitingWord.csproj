@@ -263,6 +263,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="src\Test\JavaScript1.js" />
     <Content Include="src\TransApi\HTMLPage.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

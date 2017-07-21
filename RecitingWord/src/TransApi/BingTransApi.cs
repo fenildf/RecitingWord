@@ -38,7 +38,9 @@ namespace RecitingWord
                 string jsonResult = string.Empty;
                 try
                 {
-                    jsonResult = Sever.HttpGet(TRANS_API_HOST, "Word=" + Word);
+                    //jsonResult = Sever.HttpGet(TRANS_API_HOST, "Word=" + Word);
+                    jsonResult = Sever.HttpPost("http://www.bing.com/translator/api/Translate/TranslateArray?from=en&to=zh-CHS", Word);
+                    
                     Result = BingTrans.BulidBingTrans(jsonResult);
                     Result.Word = Word;
                     break;
@@ -129,19 +131,19 @@ namespace RecitingWord
             {
                 var json = JObject.Parse(Json);
 
-                foreach (var item in json["defs"])
+                foreach (var item in json["items"])
                 {
-                    defs.Add(new defs() { def = item.Value<string>("def"), pos = item.Value<string>("pos") });
+                    defs.Add(new defs() { def = item.Value<string>("text"), pos = "" });
                 }
 
-                Word = json["word"].Value<string>();
+                //Word = json["word"].Value<string>();
 
-                try
-                {
-                    Aem = json["pronunciation"].Value<string>("AmE");
-                    BrE = json["pronunciation"].Value<string>("BrE");
-                }
-                catch (Exception) { }
+                //try
+                //{
+                //    Aem = json["pronunciation"].Value<string>("AmE");
+                //    BrE = json["pronunciation"].Value<string>("BrE");
+                //}
+                //catch (Exception) { }
             }
             catch (Exception ex)
             {

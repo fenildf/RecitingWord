@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -32,7 +33,7 @@ namespace RecitingWord
         {
 
         }
-        private void PreviewMouseLeftButtonDownHandle()
+        private void PreviewMouseLeftButtonDownHandle(object sender)
         {
             if (MultiSelectModel = Keyboard.Modifiers == ModifierKeys.Control)
             {
@@ -43,7 +44,7 @@ namespace RecitingWord
                 if (MultiSelectModel = SelectedWordList.Instance.Words.Count > 0)
                 {
                     SelectedWordList.Instance.Words.Add(Word);
-                    TouchUpHandle(this);
+                    TouchUpHandle(sender);
                 }
             }
         }
@@ -61,24 +62,26 @@ namespace RecitingWord
                 foreach (var Item in SelectedWordList.Instance.Words)
                 {
                     if (string.IsNullOrWhiteSpace(Item)) continue;
-
                     TouchWords.AppendFormat($"{Item} ");
                 }
                 SettingViewMode.Instance.RereadAsync(TouchWords.ToString());
                 SelectedWordList.Instance.Words.Clear();
                 var result = GoogleTransApi.Instance.getSentenceTransResult(TouchWords.ToString());
-                View.PopupViewMode.Instance.PlacementTarget = sender;
-                View.PopupViewMode.Instance.IsPopup = false;
-                View.PopupViewMode.Instance.IsPopup = true;
-                if (result.defs.Count > 0)
-                {
+
+                Application.Current.Dispatcher.Invoke(() => {
+                    View.PopupViewMode.Instance.PlacementTarget = sender;
+                    View.PopupViewMode.Instance.IsPopup = false;
+                    View.PopupViewMode.Instance.IsPopup = true;
+                    if (result.defs.Count > 0)
+                    {
                     View.PopupViewMode.Instance.Text = string.Join("\r\n", (from item in result.defs select item.def).ToArray());
-                }
-                else
-                {
-                    View.PopupViewMode.Instance.Text = "翻译失败";
-                }
-                MultiSelectModel = false;
+                    }
+                    else
+                    {
+                        View.PopupViewMode.Instance.Text = "翻译失败";
+                    }
+                    MultiSelectModel = false;
+                });
             });
         }
 
@@ -147,8 +150,13 @@ namespace RecitingWord
                 {
                     _WordExplaining = value;
                     ProperChange(nameof(WordExplaining));
+                    ProperChange(nameof(ToolTip));
                 }
             }
+        }
+        public string ToolTip
+        {
+            get { return $"{WordExplaining}\r\n{AmE}\t\t{BrE}"; }
         }
         private int _ShowCount = 0;
         /// <summary>

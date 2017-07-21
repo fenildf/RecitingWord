@@ -40,6 +40,7 @@ namespace RecitingWord.View
         public void AddWrods(IEnumerable<WordMode> words)
         {
             Words.Clear();
+            GC.Collect();
 
             var passage = new Passage();
             foreach (var item in words)

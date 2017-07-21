@@ -21,7 +21,7 @@
 	</DataTemplate>
 	
 	<DataTemplate  DataType="{x:Type M:WordMode}">
-		<Button  x:Name="b" ToolTip="{Binding WordExplaining}"
+		<Button  x:Name="b" ToolTip="{Binding ToolTip}"
 			Command="{Binding Command}" CommandParameter="{Binding ElementName=b}"
 			BorderBrush="Transparent" Focusable="True" 
 			Foreground="{StaticResource MainForeground}"
