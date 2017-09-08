@@ -78,6 +78,10 @@ namespace RecitingWord
             {
                 SettingViewMode.Instance.RereadAsync();
             });
+            R_Key = new MVVM.Command(() =>
+            {
+                SelectedWordList.Instance.RereadSentence();
+            });
         }
 
         private void AHandle()

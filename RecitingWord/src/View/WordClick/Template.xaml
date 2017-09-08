@@ -6,8 +6,8 @@
 					
 					xmlns:local="clr-namespace:RecitingWord.View">
 	
-	<SolidColorBrush x:Key="MainBackground" Color="Black"/>
-	<SolidColorBrush x:Key="MainForeground" Color="White"/>
+	<SolidColorBrush x:Key="MainBackground" Color="#FF1E1E1E"/>
+	<SolidColorBrush x:Key="MainForeground" Color="#FFE6E6E6"/>
 	<SolidColorBrush x:Key="MainSelectedBackground" Color="#FF0A0A0A"/>
 
 	<DataTemplate DataType="{x:Type local:Passage}">
@@ -25,8 +25,9 @@
 			Command="{Binding Command}" CommandParameter="{Binding ElementName=b}"
 			BorderBrush="Transparent" Focusable="True" 
 			Foreground="{StaticResource MainForeground}"
+			FontFamily="宋体"  
 			FontSize="{Binding Source={x:Static M:SettingViewMode.Instance},Path=WordClickFontSize}" 
-			HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" >
+			HorizontalAlignment="Center" VerticalAlignment="Center" >
 			
 			
 			<!--BorderBrush="{x:Null}"-->
@@ -40,7 +41,35 @@
 			<Button.Content>
 				<TextBlock Margin="0 5" Text="{Binding Word}" Background="{x:Null}" />
 			</Button.Content>
-
+			<Button.Template>
+				<ControlTemplate TargetType="Button">
+					<Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+						<ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="Button.IsDefaulted" Value="True">
+							<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+						</Trigger>
+						<Trigger Property="IsMouseOver" Value="True">
+							<!--<Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>-->
+							<Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
+						</Trigger>
+						<Trigger Property="IsPressed" Value="True">
+							<!--<Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>-->
+							<Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+						</Trigger>
+						<Trigger Property="ToggleButton.IsChecked" Value="True">
+							<!--<Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>-->
+							<Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+							<Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+							<Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Button.Template>
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="TouchUp">
 					<i:InvokeCommandAction Command="{Binding TouchUp}" CommandParameter="{Binding  ElementName=b}"/>

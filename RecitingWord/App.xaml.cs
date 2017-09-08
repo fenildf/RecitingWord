@@ -19,8 +19,8 @@ namespace RecitingWord
             //BingTransApi.getWebTransResult("remains");
 
             NORMAN.NRM411S7.CommandLineDebug.Instance.ToString();
-            var LoadWindow = new View.Load();
-            LoadWindow.Show();
+            //var LoadWindow = new View.Load();
+            //LoadWindow.Show();
             SettingViewMode.Instance.MySqlConnectionString.ToString();
             Task.Run(()=> {
                 try
@@ -43,7 +43,7 @@ namespace RecitingWord
             //WordPlayViewMode.Instance.Word = wm;
             Application.Current.Exit += Exit;
             base.OnStartup(e);
-            LoadWindow.Close();
+            //LoadWindow.Close();
         }
 
         private void Exit(object sender, ExitEventArgs e)

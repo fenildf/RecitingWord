@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RecitingWord.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,8 @@ namespace RecitingWord
             PreviewMouseLeftButtonUp = new MVVM.Command(PreviewMouseLeftButtonUpHandle);
 
             //MouseMove = new MVVM.Command(MouseMoveHandle);
+
+            Index = WordIndex.Instance.Next();
         }
 
         public bool MultiSelectModel { get; set; } = false;
@@ -35,6 +38,8 @@ namespace RecitingWord
         }
         private void PreviewMouseLeftButtonDownHandle(object sender)
         {
+            SelectedWordList.Instance.Start = SelectedWordList.Instance.End;
+            SelectedWordList.Instance.End = Index;
             if (MultiSelectModel = Keyboard.Modifiers == ModifierKeys.Control)
             {
                 SelectedWordList.Instance.Words.Add(Word);
@@ -65,6 +70,7 @@ namespace RecitingWord
                     TouchWords.AppendFormat($"{Item} ");
                 }
                 SettingViewMode.Instance.RereadAsync(TouchWords.ToString());
+                SelectedWordList.Instance.WordsToSentence();
                 SelectedWordList.Instance.Words.Clear();
                 var result = GoogleTransApi.Instance.getSentenceTransResult(TouchWords.ToString());
 
@@ -117,7 +123,7 @@ namespace RecitingWord
         public ICommand PreviewMouseLeftButtonDown { get; set; }
         public ICommand PreviewMouseLeftButtonUp { get; set; }
         public ICommand MouseMove { get; set; }
-
+        public int Index;
         
         #region 折叠
         private string _Word;
@@ -313,8 +319,53 @@ namespace RecitingWord
         private SelectedWordList()
         {
             Words = new HashSet<string>();
+            Sentence = new List<string>();
         }
-        public HashSet<string> Words { get; set; }
+        public HashSet<string> Words { get; }
+        public List<string> Sentence { get; }
+        public int Start { get; set; }
+        public int End { get; set; }
+        public void RereadSentence()
+        {
+            if (End > Start)
+            {
+                Sentence.Clear();
+                Sentence.AddRange(from item in TypeWordViewMode.Instance.TypeWord
+                where item.Index >= Start && item.Index <= End
+                select item.Word);
+                End = Start;
+            }
+            SettingViewMode.Instance.RereadAsync(string.Join(" ", Sentence));
+        }
+        public void WordsToSentence()
+        {
+            Sentence.Clear();
+            Sentence.AddRange(Words);
+        }
+    }
+
+
+    class WordIndex
+    {
+        static WordIndex _Instance = new WordIndex();
+        public static WordIndex Instance
+        {
+            get
+            {
+                return _Instance;
+            }
+
+        }
+        private WordIndex()
+        {
+
+        }
+        int Index = 0;
+
+        public int Next()
+        {
+            return Index++;
+        }
     }
 }
 #region MyRegion

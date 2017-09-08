@@ -53,7 +53,8 @@ namespace RecitingWord
             SettingViewMode.Instance.WordsRecords.Clear();
         }
 
-        public Regex MatchWord = new Regex(@"(([A-Za-z]|[a-z]|['])+)|([^\r\n\s])|(\r\n)|( )", RegexOptions.Compiled);
+        //public Regex MatchWord = new Regex(@"(([A-Za-z]|[a-z]|['])+)|([^\r\n\s])|(\r\n)|( )", RegexOptions.Compiled);
+        public Regex MatchWord = new Regex(@"([A-Za-z]([a-z]|['])+)|([^\r\n\s])|(\r\n)|( )", RegexOptions.Compiled);
         List<WordMode> ParseStringToWords(string Word)
         {
             var Words = ParseString(Word);
@@ -61,6 +62,7 @@ namespace RecitingWord
             if (Words.Count <= 0) return new List<WordMode>();
             //Words = (from item in Words where item.Word.Length >= SettingViewMode.Instance.MinWordLength select item).ToList();
             View.WordClickViewMode.Instance.AddWrods(Words);
+
             return Words;
         }
 

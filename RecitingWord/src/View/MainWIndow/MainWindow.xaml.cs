@@ -62,7 +62,6 @@ namespace RecitingWord
         int hHook;
         public Win32Api.HookProc hProc;
         public const int WH_MOUSE_LL = 14;
-        Point Point;
         int HookHandle(int nCode, Int32 wParam, IntPtr lParam)
         {
             if (nCode < 0)

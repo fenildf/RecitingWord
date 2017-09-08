@@ -55,6 +55,10 @@ namespace RecitingWord
             Topmost         = ProgramConfig.Default.Topmost;
             ShowPhonetic    = ProgramConfig.Default.ShowPhonetic;
             WordClickFontSize = ProgramConfig.Default.WordClickFontSize;
+
+            InstalledVoices = (from item in synth.GetInstalledVoices() where item.Enabled select item.VoiceInfo.Name).ToList();
+            VoiceGender = Enum.GetValues(typeof(VoiceGender)).OfType<VoiceGender>().ToArray();
+            VoiceAge = Enum.GetValues(typeof(VoiceAge)).OfType<VoiceAge>().ToArray();
         }
 
 
@@ -502,6 +506,83 @@ namespace RecitingWord
                 ProgramConfig.Default.Save();
             }
         }
+
+        private List<string> _InstalledVoices;
+        public List<string> InstalledVoices
+        {
+            get { return _InstalledVoices; }
+            set { SetProperty(ref _InstalledVoices, value, nameof(InstalledVoices)); }
+        }
+        private string _InstalledVoiceSelectItem;
+        public string InstalledVoiceSelectItem
+        {
+            get { return _InstalledVoiceSelectItem; }
+            set
+            {
+                SetProperty(ref _InstalledVoiceSelectItem, value, nameof(InstalledVoiceSelectItem));
+
+                try
+                {
+                    synth.SelectVoice(InstalledVoiceSelectItem);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+        }
+        private VoiceGender[] _VoiceGender;
+        public VoiceGender[] VoiceGender
+        {
+            get { return _VoiceGender; }
+            set { SetProperty(ref _VoiceGender, value, nameof(VoiceGender)); }
+        }
+        private VoiceGender _VoiceGenderSelectItem;
+        public VoiceGender VoiceGenderSelectItem
+        {
+            get { return _VoiceGenderSelectItem; }
+            set
+            {
+                SetProperty(ref _VoiceGenderSelectItem, value, nameof(VoiceGenderSelectItem));
+                try
+                {
+                    synth.SelectVoiceByHints(VoiceGenderSelectItem, VoiceAgeSelectItem);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+        }
+        private VoiceAge[] _VoiceAge;
+        public VoiceAge[] VoiceAge
+        {
+            get { return _VoiceAge; }
+            set { SetProperty(ref _VoiceAge, value, nameof(VoiceAge)); }
+        }
+        private VoiceAge _VoiceAgeSelectItem;
+        public VoiceAge VoiceAgeSelectItem
+        {
+            get { return _VoiceAgeSelectItem; }
+            set
+            {
+                SetProperty(ref _VoiceAgeSelectItem, value, nameof(VoiceAgeSelectItem));
+                try
+                {
+                    synth.SelectVoiceByHints(VoiceGenderSelectItem, VoiceAgeSelectItem);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+        }
+
+
+
+
+
+
         //WordClickFontSize
         public List<WordMode> WordsRecords { get; set; } = new List<WordMode>();
         public Thread PlayThread { get; set; }

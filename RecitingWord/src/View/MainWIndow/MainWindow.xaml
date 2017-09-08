@@ -11,7 +11,7 @@
         DataContext="{Binding Source={x:Static local:MainWindowViewMode.Instance}}"
 		Topmost="{Binding Source={x:Static local:SettingViewMode.Instance},Path=Topmost}"
 		Focusable="True"   WindowStartupLocation = "CenterScreen"  x:Name="Window"
-		InputMethod.IsInputMethodEnabled="False"
+		InputMethod.IsInputMethodEnabled="False" FontFamily="Console"
         Title="{Binding Title}" Height="600" Width="1280" FontSize="25">
 	<!--xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"-->
 	<i:Interaction.Triggers>
@@ -31,7 +31,7 @@
 		<KeyBinding Key="NumPad0"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="S"	Command="{Binding Numer0}"/>
 		<KeyBinding Key="E"	Command="{Binding Numer0}"/>
-		<KeyBinding Key="E"	Command="{Binding R_Key}"/>
+		<KeyBinding Key="R"	Command="{Binding R_Key}"/>
 		<KeyBinding Key="T"	Command="{Binding T_Key}"/>
 		<KeyBinding Key="PageDown"	Command="{Binding Down}"/>
 		<KeyBinding Key="PageUp"	Command="{Binding Up}"/>
