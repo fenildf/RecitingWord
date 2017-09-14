@@ -462,6 +462,13 @@ namespace RecitingWord
             get { return Mysql.IsHaveDatabase; }
             set {  }
         }
+
+        private bool _MonitorClipboard = true;
+        public bool MonitorClipboard 
+        {
+            get { return _MonitorClipboard; }
+            set { SetProperty(ref _MonitorClipboard, value, nameof(MonitorClipboard)); }
+        }
         private bool _AutoGetWord;
         public bool AutoGetWord
         {

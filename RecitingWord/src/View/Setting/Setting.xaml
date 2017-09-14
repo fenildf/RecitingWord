@@ -90,6 +90,9 @@
 				<CheckBox  Margin="0 10" IsChecked="{Binding AutoGetWord}">
 					<TextBlock Margin="0 -3" Text="Auto Get Word"/>
 				</CheckBox>
+				<CheckBox  Margin="0 10" IsChecked="{Binding MonitorClipboard}">
+					<TextBlock Margin="0 -3" Text="Monitor Clipboard"/>
+				</CheckBox>
 				<CheckBox  Margin="0 10" IsChecked="{Binding ConnectionMysql}">
 					<TextBlock Margin="0 -3" Text="Mysql"/>
 				</CheckBox>

@@ -135,6 +135,10 @@ namespace RecitingWord
             {
                 try
                 {
+                    if (!SettingViewMode.Instance.MonitorClipboard)
+                    {
+                        return IntPtr.Zero;
+                    }
                     var Word = System.Windows.Clipboard.GetText();
                     if (!string.IsNullOrWhiteSpace(Word))
                     {
