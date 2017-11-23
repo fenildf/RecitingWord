@@ -121,6 +121,7 @@
       <DependentUpon>ProgramConfig.settings</DependentUpon>
     </Compile>
     <Compile Include="src\Test\Class1.cs" />
+    <Compile Include="src\TransApi\BaiduNewApi.cs" />
     <Compile Include="src\TransApi\BaiDuTransApi.cs" />
     <Compile Include="src\TransApi\BingTransApi.cs" />
     <Compile Include="src\TransApi\GoogleTransApi.cs" />

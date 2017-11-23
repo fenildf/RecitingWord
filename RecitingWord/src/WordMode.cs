@@ -80,7 +80,7 @@ namespace RecitingWord
                     View.PopupViewMode.Instance.IsPopup = true;
                     if (result.defs.Count > 0)
                     {
-                    View.PopupViewMode.Instance.Text = string.Join("\r\n", (from item in result.defs select item.def).ToArray());
+                        View.PopupViewMode.Instance.Text = string.Join("\r\n", (from item in result.defs select item.def).ToArray());
                     }
                     else
                     {

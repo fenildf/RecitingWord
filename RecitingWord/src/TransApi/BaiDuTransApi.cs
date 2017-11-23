@@ -114,13 +114,16 @@ namespace RecitingWord
                 myStreamReader.Close();
                 myResponseStream.Close();
                 return retString;
-
             }
             catch (Exception ex)
             {
             }
             return "";
         }
+
+
+
+
     }
     static public class ExMemose
     {
