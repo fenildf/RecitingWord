@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecitingWord
 {
-    class BaiduNewApi
+    public class BaiduNewApi
     {
         static BaiduNewApi _Instance = new BaiduNewApi();
         public static BaiduNewApi Instance
@@ -20,11 +21,38 @@ namespace RecitingWord
 
         }
         private BaiduNewApi()
-        {}
+        {
+            var HttpClientHandler = new HttpClientHandler();
+            HttpClientHandler.CookieContainer = BingCookie.Instance.cookie;
+            hc = new HttpClient(HttpClientHandler);
+            //BingCookie.Instance.cookie
 
+            //Task.Run(async ()=> {
+            //    var result = GetTransResult("translate");
+            //});
+        }
+
+
+        public async Task<BaiduTransStruct> GetTransResult(string word)
+        {
+            var TransResult = new BaiduTransStruct();
+
+            var result = UnicodeToGB(await Post("http://fanyi.baidu.com/sug", $"kw={word}"));
+            var JO = JObject.Parse(result)["data"];
+            foreach (var item in JO)
+            {
+                TransResult.Kvs.Add(new kv() { k = item["k"].ToString(), v = item["v"].ToString() });
+            }
+            return TransResult;
+        }
+
+
+
+
+
+        public HttpClient hc { get; }
         public async Task<string> Post(string DestUri, string Parame)
         {
-            using (var hc = new HttpClient())
             using (var sc = new StringContent(Parame))
             {
                 #region MyRegion
@@ -49,7 +77,6 @@ namespace RecitingWord
                 //hc.DefaultRequestHeaders.Add("X-Requested-Wit", "XMLHttpRequest");
                 //hc.DefaultRequestHeaders.Add("Referer", "http://fanyi.baidu.com/translate"); 
                 #endregion
-
                 sc.Headers.ContentLength = Parame.Length;
                 sc.Headers.ContentType.CharSet = "UTF-8";//重要
                 sc.Headers.ContentType.MediaType = "application/x-www-form-urlencoded";//重要
@@ -96,4 +123,27 @@ namespace RecitingWord
 
         }
     }
+
+    public class BaiduTransStruct
+    {
+        public BaiduTransStruct()
+        {
+            Kvs = new List<kv>();
+        }
+        public List<kv> Kvs;
+        public override string ToString()
+        {
+            return $"Count = {Kvs.Count},{string.Join(",",Kvs)}";
+        }
+    }
+    public class kv
+    {
+        public string k;
+        public string v;
+        public override string ToString()
+        {
+            return $"{k}:{v}";
+        }
+    }
+
 }

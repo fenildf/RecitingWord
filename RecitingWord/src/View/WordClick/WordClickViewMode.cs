@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace RecitingWord.View
 {
-    public class WordClickViewMode:MVVM.ViewModeBase
+    public class WordClickViewMode : MVVM.ViewModeBase
     {
         public static WordClickViewMode Instance { get; } = new WordClickViewMode();
         WordClickViewMode()
         {
             Words = new ObservableCollection<Passage>();
             PopupClose = new MVVM.Command(() => { PopupViewMode.Instance.IsPopup = false; });
-            Loaded = new MVVM.Command((sender) => 
+            Loaded = new MVVM.Command((sender) =>
             {
                 var Control = (sender as UserControl);
                 if (Control == null) return;
@@ -36,23 +32,26 @@ namespace RecitingWord.View
             PopupViewMode.Instance.IsPopup = false;
         }
 
-        public ObservableCollection<Passage> Words{ get; set; }
+        public ObservableCollection<Passage> Words { get; set; }
         public void AddWrods(IEnumerable<WordMode> words)
         {
             Words.Clear();
-            GC.Collect();
+            //GC.Collect();
 
             var passage = new Passage();
+            var OneLineWord = new List<WordMode>();
             foreach (var item in words)
             {
                 if (item.Word != "\r\n")
                 {
-                    passage.Words.Add(item);
+                    OneLineWord.Add(item);
                 }
                 else
                 {
+                    passage.Words = new ObservableCollection<WordMode>(OneLineWord);
                     Words.Add(passage);
                     passage = new Passage();
+                    OneLineWord = new List<WordMode>();
                 }
             }
             if (passage.Words.Count > 0)

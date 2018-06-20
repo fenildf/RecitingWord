@@ -17,6 +17,7 @@ namespace RecitingWord
         protected override void OnStartup(StartupEventArgs e)
         {
             //BingTransApi.getWebTransResult("remains");
+            BaiduNewApi.Instance.ToString();
 
             NORMAN.NRM411S7.CommandLineDebug.Instance.ToString();
             //var LoadWindow = new View.Load();

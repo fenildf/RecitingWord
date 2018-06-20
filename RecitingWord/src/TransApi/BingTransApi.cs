@@ -25,7 +25,17 @@ namespace RecitingWord
             else
             {
                 //Console.WriteLine("web : {0}", Word);
-                Result = getWebTransResult(Word);
+                //Result = getWebTransResult(Word);
+                //if (Result.Error)
+                {
+                    Result = new BingTrans(Word, "", "", new List<defs>());
+                    var BaiduResult = BaiduNewApi.Instance.GetTransResult(Word).ConfigureAwait(false).GetAwaiter().GetResult();
+                    foreach (var item in BaiduResult.Kvs)
+                    {
+                        Result.defs.Add(new defs() { pos = item.v, def = item.v });
+                        Console.WriteLine($"从百度返回 {item}");
+                    }
+                }
                 TransResultToDataBase(Result);
                 return Result;
             }
@@ -49,6 +59,7 @@ namespace RecitingWord
                 {
                     //Console.WriteLine("getWebTransResult()->{0}:{2}:{1}", i, ex.Message, Word);
                     ErrorRecords(Word, string.Format("i = {2},jsonResult = {0},ex.Message = {1}", jsonResult, ex.Message, i));
+                    if (Result == null) Result = new BingTrans(Word, string.Empty, string.Empty, new List<defs>()) { Error = true };
                 }
             }
             return Result;
@@ -126,6 +137,7 @@ namespace RecitingWord
             string Word = "";
             string Aem = "";
             string BrE = "";
+            bool Exception = false;
             var defs = new List<defs>();
             try
             {
@@ -135,6 +147,8 @@ namespace RecitingWord
                 {
                     defs.Add(new defs() { def = item.Value<string>("text"), pos = "" });
                 }
+
+                Exception = defs.Count == 0;
 
                 //Word = json["word"].Value<string>();
 
@@ -149,15 +163,16 @@ namespace RecitingWord
             {
                 //Console.WriteLine("json解析错误->{0},message = {1}", Json, ex.Message);
                 BingTransApi.ErrorRecords("BulidBingTransError", string.Format("json = {0},message = {1}", Json, ex.Message));
+                Exception = true;
             }
-            return new BingTrans(Word, Aem, BrE, defs);
+            return new BingTrans(Word, Aem, BrE, defs) { Error = Exception };
         }
         public string Word;
         public string AmE;
         public string BrE;
         public List<defs> defs;
 
-
+        public bool Error;
     }
 
     public class defs
